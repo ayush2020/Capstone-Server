@@ -1,0 +1,16 @@
+POST http://localhost:4000/rider/post
+Content-Type: application/json
+
+{
+        "VehicleNumber":"558568646789",
+        "SourcePlace":"dELHI",
+        "DestinationPlace":"Bhopal",
+        "typeOfTrip":"gdh",
+        "dateOfTrip":"2",
+        "timeOfTrip":"412-5-5",
+        "availableSeat":"5",
+        "PhoneNumber":"+918840099604",
+        "IsRider":true
+          
+}
+###

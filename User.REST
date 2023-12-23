@@ -1,0 +1,23 @@
+
+POST  http://localhost:4000/user/post
+Content-Type: application/json
+
+{
+          "FullName":"6",
+          "Email":"deepu2@gmail.com",
+          "PhoneNumber":"+91987456321",
+          "IsRider":false
+          
+}
+###
+GET  http://localhost:4000/user/get
+Content-Type: application/json
+###
+GET  http://localhost:4000/user/getemail/ayush2@gmail.com
+Content-Type: application/json
+###
+GET  http://localhost:4000/user/getphone/+918840099604
+Content-Type: application/json
+###
+GET  http://localhost:4000/user/getboth/ayush2@gmail.com/+919935092454
+Content-Type: application/json
