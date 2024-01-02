@@ -1,17 +1,46 @@
 const Useroute =require('express').Router();
+const bcrypt = require("bcrypt");
 
+const session = require('express-session');
+const passport = require("passport");
 const User =require('../Model/UserLogin');
+LocalStrategy = require('passport-local').Strategy;
 
+const jwt = require('jsonwebtoken')
+// passport.use(User.createStrategy());
+
+passport.serializeUser(function(user, done) {
+  process.nextTick(function() {
+  done(null, user._id);
+});
+});
+
+passport.deserializeUser(function(id, done) {
+    process.nextTick(function() {
+          User.findById(id, function(err, user) {
+            done(err, user);
+            console.log("error"+err);
+            console.log("user"+user);
+          });
+});
+});
+Useroute.use(session({
+  secret: "Our little secret.",
+  resave: false,
+  saveUninitialized: false
+}));
 Useroute.post('/post', async (req,res)=>{
           console.log("post require is working");
           try {
             // const {formData} = req.body;
             // console.log(formData)
-            
+            const plainPassword = req.body.password;
+            const hashPassword = bcrypt.hashSync(plainPassword, 2);
                     const newdata= new User({
                             Fullname:req.body.FullName,
                             Email:req.body.Email,
                             PhoneNumber:req.body.PhoneNumber,
+                            Password:hashPassword,
                             IsRider:req.body.IsRider
                     })
                     console.log(newdata);
@@ -20,6 +49,28 @@ Useroute.post('/post', async (req,res)=>{
                     
           } catch (error) {console.log(error);}
           
+})
+Useroute.post("/adminLogin",async function(req,res){
+  try{
+    const reqEmail = req.body.email;
+        const reqPassword = req.body.password;
+        console.log(reqEmail);
+        const item = await User.findOne({email: reqEmail});
+        console.log(item); //  email
+        if(item === null){
+            res.json("no")
+        }else{
+        const savePassword = item.Password;
+        if(bcrypt.compareSync(reqPassword, savePassword) === true){
+                res.status(200).json(reqEmail)
+        }else if(bcrypt.compareSync(reqPassword, savePassword) === false){
+            res.json("false");
+        }
+    }
+} catch (error) {
+    res.json(error)
+    
+}
 })
 // getting the all item present in cart
 Useroute.get('/get',async(req,res)=>{
