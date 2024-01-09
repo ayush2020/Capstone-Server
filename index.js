@@ -22,15 +22,18 @@ mongoose.connect(process.env.DB)
 mongoose.set('strictQuery', false);
 
 // Model
-const UserLogin=require('./Model/UserLogin');
+const UserLoginModel=require('./Model/UserLogin');
+const RiderLogin = require('./Model/RiderLogin')
 const Rider= require('./Model/Rider')
 
 // Routes
 const UserRoute = require('./Router/Userouter');
-const Riderrouter = require('./Router/Riderrouter')
+const Riderrouter = require('./Router/Riderrouter');
+const RiderLoginrouter = require('./Router/RiderLogin');
 
 app.use('/user', UserRoute);
 app.use('/rider',Riderrouter);
+app.use('riderlogin',RiderLoginrouter)
 
 //PORT: 4000
 
