@@ -14,3 +14,9 @@ Content-Type: application/json
           
 }
 ###
+GET http://localhost:4000/rider/get
+Content-Type: application/json
+###
+GET  http://localhost:4000/rider/getemail/9874562@gmail.com
+Content-Type: application/json
+###

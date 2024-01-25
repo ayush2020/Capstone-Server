@@ -11,7 +11,7 @@ const RiderLoginSchema = new mongoose.Schema({
           IsRider:Boolean,
 
 })
-module.exports =mongoose.model("Riderform",RiderLoginSchema);
+module.exports =mongoose.model("RiderLoginform",RiderLoginSchema);
 // Name:"",
 //       Email:"",
 //       Password:"",

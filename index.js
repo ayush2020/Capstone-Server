@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const bodyParser=require('body-parser')
-
+// dc
 // const jwt = require('jsonwebtoken')
 
 const cors = require('cors');
@@ -30,10 +30,13 @@ const Rider= require('./Model/Rider')
 const UserRoute = require('./Router/Userouter');
 const Riderrouter = require('./Router/Riderrouter');
 const RiderLoginrouter = require('./Router/RiderLogin');
+//MiddelWare
+
+
 
 app.use('/user', UserRoute);
 app.use('/rider',Riderrouter);
-app.use('riderlogin',RiderLoginrouter)
+app.use('/riderlogin',RiderLoginrouter)
 
 //PORT: 4000
 

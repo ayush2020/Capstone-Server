@@ -34,19 +34,33 @@ Useroute.post('/post', async (req,res)=>{
           try {
             // const {formData} = req.body;
             // console.log(formData)
-            const plainPassword = req.body.password;
-            const hashPassword = bcrypt.hashSync(plainPassword, 2);
-                    const newdata= new User({
-                            Fullname:req.body.FullName,
-                            Email:req.body.Email,
-                            PhoneNumber:req.body.PhoneNumber,
-                            Password:hashPassword,
-                            IsRider:req.body.IsRider
-                    })
-                    console.log(newdata);
-                    const save= await newdata.save()
-                    res.json("User is save")
-                    
+            const plainPassword = req.body.Password;
+            console.log("hfh"+plainPassword);
+            
+            const Email = req.body.Email
+            const PhoneNumber =req.body.PhoneNumber
+            const emailLowerCase = Email.toLowerCase()
+            let foundPhone = await findPhone(PhoneNumber);
+            let foundEmail = await findEmail( emailLowerCase);
+           
+            if(foundEmail ==false  && foundPhone==false){
+                // if (plainPassword.length < 6)
+                //  return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' })
+                  const hashPassword = bcrypt.hashSync(plainPassword, 2);
+                      const newdata= new User({
+                              Fullname:req.body.FullName,
+                              Email:emailLowerCase,
+                              PhoneNumber:PhoneNumber,
+                              Password:hashPassword,
+                              IsRider:req.body.IsRider
+                      })
+                      console.log(newdata);
+                      const save= await newdata.save()
+                      res.json("User is save")
+                    }else{
+                      res.status(400).json({success :false ,message: "Email or Password already Register" })
+                    }
+
           } catch (error) {console.log(error);}
           
 })
@@ -56,7 +70,7 @@ Useroute.post("/adminLogin",async function(req,res){
         const reqPassword = req.body.password;
         console.log(reqEmail);
         const item = await User.findOne({email: reqEmail});
-        console.log(item); //  email
+      
         if(item === null){
             res.json("no")
         }else{

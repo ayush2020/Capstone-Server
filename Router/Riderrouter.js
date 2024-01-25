@@ -1,7 +1,9 @@
 const Rideroute =require('express').Router();
 
 const Rider =require('../Model/Rider');
-// d
+
+
+
 Rideroute.post('/post', async (req,res)=>{
           console.log("rider post require is working");
           try {
