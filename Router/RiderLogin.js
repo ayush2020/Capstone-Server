@@ -52,7 +52,7 @@ RiderLoginRoute.post('/post', async (req,res)=>{
                     })
                     console.log(newdata);
                     const save= await newdata.save()
-                    res.json("User is save")
+                    res.json("Ride created")
                     
           } catch (error) {console.log(error);}
           

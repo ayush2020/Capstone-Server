@@ -23,7 +23,7 @@ Rideroute.post('/post', async (req,res)=>{
                     })
                     console.log(newdata);
                     const save= await newdata.save()
-                    res.json("User is save")
+                    res.json("Rider is save")
                     
           } catch (error) {console.log(error);}
           
@@ -59,6 +59,30 @@ Rideroute.get('/getemail/:email',async(req,res) =>{
         res.json(query);
       }catch (error) {res.json(error);}
   })
+Rideroute.get('/getpath',async(req,res)=>{
+  console.log("/getpath is working");
+  try {
+    let query =await Rider.find({
+      SourcePlace: req.body.SourcePlace,
+      DestinationPlace:req.body.DestinationPlace
+    })
+    
+    if(query.length===0){
+       let date = await Rider.find({
+          dateOfTrip:req.body.dateOfTrip})
+          res.json(date);   
+    }else{
+
+      res.json("notnull");
+    }
+    
+    res.json(query);
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+})
 
 // Delete Item
 Rideroute.delete('/data/:name', async (req,res)=>{

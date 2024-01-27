@@ -31,7 +31,9 @@ const UserRoute = require('./Router/Userouter');
 const Riderrouter = require('./Router/Riderrouter');
 const RiderLoginrouter = require('./Router/RiderLogin');
 //MiddelWare
-
+app.get('/',(req,res)=>{
+ res.send("hello")
+})
 
 
 app.use('/user', UserRoute);
