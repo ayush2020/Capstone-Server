@@ -13,7 +13,7 @@ Content-Type: application/json
 GET  http://localhost:4000/user/get
 Content-Type: application/json
 ###
-GET  http://localhost:4000/user/getemail/ayush2@gmail.com
+GET  http://localhost:4000/user/getemail/123456@gmail.com
 Content-Type: application/json
 ###
 GET  http://localhost:4000/user/getphone/+918840099604

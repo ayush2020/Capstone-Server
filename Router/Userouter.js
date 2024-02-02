@@ -66,19 +66,29 @@ Useroute.post('/post', async (req,res)=>{
 })
 Useroute.post("/adminLogin",async function(req,res){
   try{
-    const reqEmail = req.body.email;
-        const reqPassword = req.body.password;
-        console.log(reqEmail);
-        const item = await User.findOne({email: reqEmail});
-      
-        if(item === null){
-            res.json("no")
-        }else{
-        const savePassword = item.Password;
-        if(bcrypt.compareSync(reqPassword, savePassword) === true){
-                res.status(200).json(reqEmail)
-        }else if(bcrypt.compareSync(reqPassword, savePassword) === false){
-            res.json("false");
+    const reqEmail = req.body.Email;
+    const emailLowerCase = reqEmail.toLowerCase()
+        const reqPassword = req.body.Password;
+        // console.log("email is comming"+reqEmail);
+        const existingUser = await User.findOne({Email:emailLowerCase});
+      console.log(existingUser);
+      if(existingUser === null){
+        res.json({ success: false, message: 'User does not exist!' })
+      }else{
+      const { _id: id, Fullname,Email,Password } = existingUser;
+          // console.log("Here is your password"+reqPassword);
+        if(bcrypt.compareSync(reqPassword, Password) === true){
+          const token = jwt.sign(
+            {
+                id,
+                Fullname
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: 60 }
+        )
+        res.status(200).json({ success: true, result: { id, Fullname, Email,token } })
+        }else if(bcrypt.compareSync(reqPassword, Password) === false){
+          res.json({ success: false, message: 'Password is wrong' });
         }
     }
 } catch (error) {
