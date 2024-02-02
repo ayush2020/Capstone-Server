@@ -71,12 +71,12 @@ Useroute.post("/adminLogin",async function(req,res){
         const reqPassword = req.body.Password;
         // console.log("email is comming"+reqEmail);
         const existingUser = await User.findOne({Email:emailLowerCase});
-      console.log(existingUser);
+      // console.log(existingUser);
       if(existingUser === null){
         res.json({ success: false, message: 'User does not exist!' })
       }else{
       const { _id: id, Fullname,Email,Password } = existingUser;
-          // console.log("Here is your password"+reqPassword);
+          
         if(bcrypt.compareSync(reqPassword, Password) === true){
           const token = jwt.sign(
             {
