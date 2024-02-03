@@ -78,7 +78,7 @@ RiderLoginRoute.post("/adminLogin",async function(req,res){
         let existingUser =await RiderLogin.findOne({Email: emailLowerCase })
       //  console.log(`userfoun ${existingUser}`);
         if(existingUser === null){
-            res.json({ success: false, message: 'User does not exist!' })
+            res.json({ success: false, message: 'Rider does not exist!' })
         }else{
           const { _id: id, Fullname,Email,Password } = existingUser;
           console.log( Fullname);
