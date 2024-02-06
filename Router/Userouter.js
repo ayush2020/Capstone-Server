@@ -1,39 +1,17 @@
 const Useroute =require('express').Router();
 const bcrypt = require("bcrypt");
 
-const session = require('express-session');
-const passport = require("passport");
-const User =require('../Model/UserLogin');
+const User =require('../Model/Users');
 LocalStrategy = require('passport-local').Strategy;
 
 const jwt = require('jsonwebtoken')
-// passport.use(User.createStrategy());
 
-passport.serializeUser(function(user, done) {
-  process.nextTick(function() {
-  done(null, user._id);
-});
-});
 
-passport.deserializeUser(function(id, done) {
-    process.nextTick(function() {
-          User.findById(id, function(err, user) {
-            done(err, user);
-            console.log("error"+err);
-            console.log("user"+user);
-          });
-});
-});
-Useroute.use(session({
-  secret: "Our little secret.",
-  resave: false,
-  saveUninitialized: false
-}));
+
 Useroute.post('/post', async (req,res)=>{
           console.log("post require is working");
           try {
-            // const {formData} = req.body;
-            // console.log(formData)
+            
             const plainPassword = req.body.Password;
             console.log("hfh"+plainPassword);
             
@@ -41,7 +19,7 @@ Useroute.post('/post', async (req,res)=>{
             const PhoneNumber =req.body.PhoneNumber
             const emailLowerCase = Email.toLowerCase()
             let foundPhone = await findPhone(PhoneNumber);
-            let foundEmail = await findEmail( emailLowerCase);
+            let foundEmail = await findEmail(emailLowerCase);
            
             if(foundEmail ==false  && foundPhone==false){
                 // if (plainPassword.length < 6)
@@ -54,14 +32,13 @@ Useroute.post('/post', async (req,res)=>{
                               Password:hashPassword,
                               IsRider:req.body.IsRider
                       })
-                      console.log(newdata);
                       const save= await newdata.save()
                       res.json("User is save")
                     }else{
                       res.status(400).json({success :false ,message: "Email or Password already Register" })
                     }
 
-          } catch (error) {console.log(error);}
+          } catch (error){ res.status(400).json({success :false ,message: "SomeThing went wrong" })}
           
 })
 Useroute.post("/adminLogin",async function(req,res){
@@ -75,7 +52,7 @@ Useroute.post("/adminLogin",async function(req,res){
       if(existingUser === null){
         res.json({ success: false, message: 'User does not exist!' })
       }else{
-      const { _id: id, Fullname,Email,Password } = existingUser;
+      const { _id: id, Fullname,Email,Password,IsRider } = existingUser;
           console.log(reqPassword);
           console.log(Password);
           
@@ -88,7 +65,7 @@ Useroute.post("/adminLogin",async function(req,res){
             process.env.JWT_SECRET,
             { expiresIn: 60 }
         )
-        res.status(200).json({ success: true, result: { id, Fullname, Email,token } })
+        res.status(200).json({ success: true, result: { id, Fullname, Email,IsRider,token } })
         }else if(bcrypt.compareSync(reqPassword, Password) === false){
           res.json({ success: false, message: 'Password is wrong' });
         }

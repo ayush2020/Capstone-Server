@@ -8,4 +8,4 @@ const UserSchema = new mongoose.Schema({
           IsRider:Boolean,
 
 })
-module.exports =mongoose.model("Userform",UserSchema);
+module.exports =mongoose.model("User",UserSchema);

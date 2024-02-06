@@ -1,15 +1,20 @@
 const mongoose =require('mongoose');
 
-const RiderSchema = new mongoose.Schema({
-        VehicleNumber:String,
-        SourcePlace:String,
-        DestinationPlace:String,
-        typeOfTrip:String,
-        dateOfTrip:String,
-        timeOfTrip:String,
-        availableSeat:String,
-        PhoneNumber:String,
-        IsRider:Boolean,
+const Rider = new mongoose.Schema({
+          Fullname:String,
+          Email:String,
+          PhoneNumber:String,
+          Licenseno:String,
+          Vehicleno:String,
+          Password:String,
+          Rc: String,
+          IsRider:Boolean,
 
 })
-module.exports =mongoose.model("RiderForm",RiderSchema);
+module.exports =mongoose.model("Rider",Rider);
+// Name:"",
+//       Email:"",
+//       Password:"",
+//       Licenseno:"",
+//       Vehicleno:"",
+//       Rc: ""

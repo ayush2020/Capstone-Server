@@ -1,31 +1,29 @@
 const Rideroute =require('express').Router();
 
-const Rider =require('../Model/Rider');
+const Rider =require('../Model/TripDetails');
 
 
 
 Rideroute.post('/post', async (req,res)=>{
           console.log("rider post require is working");
-          try {
-            const {formData} = req.body;
-            console.log(formData)
-            
-                    const newdata= new Rider({
-                        VehicleNumber:req.body.VehicleNumber,
-                        SourcePlace:req.body.SourcePlace,
-                        DestinationPlace:req.body.DestinationPlace,
-                        typeOfTrip:req.body.typeOfTrip,
-                        dateOfTrip:req.body.dateOfTrip,
-                        timeOfTrip:req.body.timeOfTrip,
-                        availableSeat:req.body.availableSeat,
-                        PhoneNumber:req.body.PhoneNumber,
-                        IsRider:req.body.IsRider
-                    })
-                    console.log(newdata);
-                    const save= await newdata.save()
-                    res.json("Rider is save")
+          try {   
+                   
+              const newdata= new Rider({
+                  VehicleNumber:req.body.VehicleNumber,
+                  SourcePlace:req.body.SourcePlace,
+                  DestinationPlace:req.body.DestinationPlace,
+                  typeOfTrip:req.body.typeOfTrip,
+                  dateOfTrip:req.body.dateOfTrip,
+                  timeOfTrip:req.body.timeOfTrip,
+                  availableSeat:req.body.availableSeat,
+                  PhoneNumber:req.body.PhoneNumber,
+                  IsRider:req.body.IsRider
+              })
+              console.log(newdata);
+              const save= await newdata.save()
+              res.json("Rider is save")
                     
-          } catch (error) {console.log(error);}
+          } catch (error) {res.status(400).json({success :false ,message: "SomeThing went wrong" })}
           
 })
 // getting the all item present in cart
@@ -35,7 +33,7 @@ Rideroute.get('/get',async(req,res)=>{
                     const specificItem =await Rider.find({})
                     res.status(200).json(specificItem)
           } catch (error) {
-                    res.json(error);
+                   res.status(400).json({success :false ,message: "SomeThing went wrong" })
           }
 })
 
@@ -79,7 +77,7 @@ Rideroute.get('/getpath',async(req,res)=>{
     res.json(query);
     
   } catch (error) {
-    console.log(error);
+    res.status(400).json({success :false ,message: "SomeThing went wrong" })
     
   }
 })
@@ -93,10 +91,11 @@ Rideroute.delete('/data/:name', async (req,res)=>{
               const deleteItem = await Rider.findOneAndRemove(req.params.name);
               res.status(200).json('Item_deleted');
           } catch (error) {
-              res.json(error)
+            res.status(400).json({success :false ,message: "SomeThing went wrong" })
           }
 })
-      
+  
+
 // Delte all
 Rideroute.delete('/cart/empty',async (req, res)=>{
           console.log("/cart/empty get rquest is working");
@@ -104,7 +103,7 @@ Rideroute.delete('/cart/empty',async (req, res)=>{
               const deleteAll = await Rider.deleteMany(); 
               res.status(200).json('Items deleted');       
           } catch (error) {
-              res.json(error); 
+             res.status(400).json({success :false ,message: "SomeThing went wrong" }) 
           }
           })
 

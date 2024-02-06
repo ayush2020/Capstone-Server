@@ -21,10 +21,7 @@ mongoose.connect(process.env.DB)
 .catch(err => console.log(err))
 mongoose.set('strictQuery', false);
 
-// Model
-const UserLoginModel=require('./Model/UserLogin');
-const RiderLogin = require('./Model/RiderLogin')
-const Rider= require('./Model/Rider')
+
 
 // Routes
 const UserRoute = require('./Router/Userouter');
