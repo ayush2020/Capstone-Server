@@ -29,7 +29,7 @@ const TripDetails = require('./Router/TripDetails');
 const RiderLogin = require('./Router/RiderLogin');
 //MiddelWare
 app.get('/',(req,res)=>{
- res.send("hello")
+ res.send("Welcome to Saat Chalo backend Page")
 })
 
 
