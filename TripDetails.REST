@@ -1,0 +1,15 @@
+POST http://localhost:4000/tripdet/post
+Content-Type: application/json
+
+{
+        "VehicleNumber":"RJ14AH4521",
+        "SourcePlace":"Jaipur",
+        "DestinationPlace":"Jammu",
+        "typeOfTrip":"2ways",
+        "dateOfTrip":"15-02-2024",
+        "timeOfTrip":"15:31",
+        "availableSeat":"2",
+        "PhoneNumber":"+91993509557",
+        "IsRider":true    
+
+}

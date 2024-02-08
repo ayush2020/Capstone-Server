@@ -1,14 +1,20 @@
 const mongoose =require('mongoose');
 
 const TripDetails = new mongoose.Schema({
-        VehicleNumber:String,
+        VehicleNumber:{
+                type:String,
+                unique: true
+        },
         SourcePlace:String,
         DestinationPlace:String,
         typeOfTrip:String,
         dateOfTrip:String,
         timeOfTrip:String,
         availableSeat:String,
-        PhoneNumber:String,
+        PhoneNumber:{
+                type:String,
+                unique: true
+        },
         IsRider:Boolean,
 
 })

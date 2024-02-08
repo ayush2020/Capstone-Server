@@ -25,8 +25,8 @@ mongoose.set('strictQuery', false);
 
 // Routes
 const UserRoute = require('./Router/Userouter');
-const Riderrouter = require('./Router/Riderrouter');
-const RiderLoginrouter = require('./Router/RiderLogin');
+const TripDetails = require('./Router/TripDetails');
+const RiderLogin = require('./Router/RiderLogin');
 //MiddelWare
 app.get('/',(req,res)=>{
  res.send("hello")
@@ -34,8 +34,8 @@ app.get('/',(req,res)=>{
 
 
 app.use('/user', UserRoute);
-app.use('/rider',Riderrouter);
-app.use('/riderlogin',RiderLoginrouter)
+app.use('/tripdet',TripDetails);
+app.use('/rider',RiderLogin)
 
 //PORT: 4000
 

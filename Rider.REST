@@ -1,18 +1,10 @@
 POST http://localhost:4000/rider/post
 Content-Type: application/json
-
 {
-        "VehicleNumber":"RJ14EY2563",
-        "SourcePlace":"Jaipur",
-        "DestinationPlace":"Goa",
-        "typeOfTrip":"2ways",
-        "dateOfTrip":"27-01-2024",
-        "timeOfTrip":"11:31",
-        "availableSeat":"5",
-        "PhoneNumber":"+9198371898",
-        "IsRider":true
-          
+    
 }
+
+
 ###
 GET http://localhost:4000/rider/get
 Content-Type: application/json
@@ -28,4 +20,3 @@ Content-Type: application/json
          "DestinationPlace":"Chennai",
          "dateOfTrip":"26-01-2022"
 }
-###
