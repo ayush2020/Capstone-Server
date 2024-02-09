@@ -28,10 +28,12 @@ const UserRoute = require('./Router/Userouter');
 const TripDetails = require('./Router/TripDetails');
 const RiderLogin = require('./Router/RiderLogin');
 //MiddelWare
-app.get('/',(req,res)=>{
- res.send("Welcome to Saat Chalo backend Page")
-})
-
+// app.get('/',(req,res)=>{
+//  res.send("Welcome to Saat Chalo backend Page")
+// })
+app.get("/",function(req,res){
+    res.sendFile(__dirname+"/index.html");
+});
 
 app.use('/user', UserRoute);
 app.use('/tripdet',TripDetails);
