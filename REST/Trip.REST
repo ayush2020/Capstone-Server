@@ -1,0 +1,29 @@
+GET http://localhost:4000/tripdet/getpath
+Content-Type: application/json
+
+{    
+          "SourcePlace":"",
+          "DestinationPlace":"",
+          "dateOfTrip":"09-02-2024"
+}
+
+###
+GET http://localhost:4000/tripdet/get
+Content-Type: application/json
+
+###
+POST http://localhost:4000/tripdet/post
+Content-Type: application/json
+
+{
+        "VehicleNumber":"RJ14AH452",
+        "SourcePlace":"Jaipur",
+        "DestinationPlace":"Jammu",
+        "typeOfTrip":"2ways",
+        "dateOfTrip":"09-02-2024",
+        "timeOfTrip":"15:31",
+        "availableSeat":"2",
+        "PhoneNumber":"+91993509556",
+        "IsRider":true    
+
+}

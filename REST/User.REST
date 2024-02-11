@@ -1,14 +1,4 @@
 
-POST  http://localhost:4000/user/post
-Content-Type: application/json
-
-{
-          "FullName":"6",
-          "Email":"deepu2@gmail.com",
-          "PhoneNumber":"+91987456321",
-          "IsRider":false
-          
-}
 ###
 GET  http://localhost:4000/user/get
 Content-Type: application/json

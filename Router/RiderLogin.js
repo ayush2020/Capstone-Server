@@ -1,9 +1,9 @@
-const RiderLoginRoute = require('express').Router();
+const RiderRoute = require('express').Router();
 const bcrypt = require("bcrypt");
 const RiderLogin = require('../Model/Rider');
 const jwt = require('jsonwebtoken');
 
-RiderLoginRoute.post('/post', async(req, res) => {
+RiderRoute.post('/post', async(req, res) => {
     try {
         const Email = req.body.Email
         const PhoneNumber = req.body.PhoneNumber
@@ -44,7 +44,7 @@ RiderLoginRoute.post('/post', async(req, res) => {
 
 })
 // getting the all item present in cart
-RiderLoginRoute.get('/get', async(req, res) => {
+RiderRoute.get('/get', async(req, res) => {
     console.log("getting the all item present in cart get requst is working");
     try {
         const specificItem = await RiderLogin.find({})
@@ -57,7 +57,7 @@ RiderLoginRoute.get('/get', async(req, res) => {
             .json({success: false, message: "SomeThing went wrong"});
     }
 })
-RiderLoginRoute.post("/adminLogin", async function (req, res) {
+RiderRoute.post("/adminLogin", async function (req, res) {
     try {
         console.log("rider/adminlogin");
 
@@ -65,7 +65,7 @@ RiderLoginRoute.post("/adminLogin", async function (req, res) {
         const emailLowerCase = reqEmail.toLowerCase()
         const reqPassword = req.body.Password;
         // console.log(emailLowerCase);
-        let existingUser = await RiderLogin.findOne({Email: emailLowerCase})
+        let existingUser = await RiderLogin.findOne({Email: emailLowerCase}) // Checking exiting data in database
         //  console.log(`userfoun ${existingUser}`);
         if (existingUser === null) {
             res.json({success: false, message: 'Rider does not exist!'})
@@ -100,7 +100,7 @@ RiderLoginRoute.post("/adminLogin", async function (req, res) {
     }
 })
 // Getting the specific phoneno item with help of phone
-RiderLoginRoute.get('/getphone/:phone', async(req, res) => {
+RiderRoute.get('/getphone/:phone', async(req, res) => {
     console.log("getting the paticular get rquest is working");
     const data = req.params.phone;
     console.log(data);
@@ -115,7 +115,7 @@ RiderLoginRoute.get('/getphone/:phone', async(req, res) => {
 })
 
 // Getting the specific item with help of email
-RiderLoginRoute.get('/getemail/:email', async(req, res) => {
+RiderRoute.get('/getemail/:email', async(req, res) => {
     console.log("getting the email get rquest is working");
     const data = req.params.email;
     console.log(data);
@@ -161,10 +161,8 @@ async function findEmail(email) {
     }
 }
 // Delete Item
-RiderLoginRoute.delete('/data/:name', async(req, res) => {
-    console.log("Deteling  the paticular get item  rquest is working");
-    console.log(req.params.name);
-
+RiderRoute.delete('/delete/:name', async(req, res) => {
+    console.log(`/delete/${req.params.name}`);
     try {
         const deleteItem = await RiderLogin.findOneAndRemove(req.params.name);
         res
@@ -178,8 +176,8 @@ RiderLoginRoute.delete('/data/:name', async(req, res) => {
 })
 
 // Delte all
-RiderLoginRoute.delete('/cart/empty', async(req, res) => {
-    console.log("/cart/empty get rquest is working");
+RiderRoute.delete('/empty', async(req, res) => {
+
     try {
         const deleteAll = await RiderLogin.deleteMany();
         res
@@ -192,4 +190,4 @@ RiderLoginRoute.delete('/cart/empty', async(req, res) => {
     }
 })
 
-module.exports = RiderLoginRoute;
+module.exports = RiderRoute;
