@@ -12,8 +12,8 @@ TripRoute.post('/', async (req,res)=>{
               const newdata= new TripDetails({
                   Fullname:req.body.Name,
                   VehicleNumber:req.body.VehicleNumber,
-                  VehileColour:req.body.VehicleColor,
-                  
+                  VehicleColour:req.body.VehicleColor,
+                  VehicleName:req.body.VehicleName,
                   SourcePlace:sourceplace,
                   DestinationPlace:Destination,
                   typeOfTrip:req.body.typeOfTrip,
@@ -21,8 +21,8 @@ TripRoute.post('/', async (req,res)=>{
                   timeOfTrip:req.body.timeOfTrip,
                   availableSeat:req.body.availableSeat,
                   PhoneNumber:req.body.PhoneNumber,
-                  Price: 0,
-                  Distance:"",
+                  Price: req.body.Price,
+                  Distance:req.body.Distance,
                   IsRider:req.body.IsRider
               })
             //  console.log(newdata);
