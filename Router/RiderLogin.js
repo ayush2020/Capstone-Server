@@ -27,7 +27,7 @@ RiderRoute.post('/post', async(req, res) => {
         })
         // console.log(newdata);
         const save = await newdata.save()
-        console.log("sdd"+save);
+        
         if(!save){
             return res
             .status(500)

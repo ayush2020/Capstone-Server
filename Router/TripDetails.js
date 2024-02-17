@@ -2,31 +2,44 @@ const TripRoute =require('express').Router();
 
 const TripDetails =require('../Model/TripDetails');
 
-TripRoute.post('/post', async (req,res)=>{
+TripRoute.post('/', async (req,res)=>{
           console.log("TripDetails post require is working");
           try {   
-          
+            let SourcePlace= req.body.SourcePlace;
+            let DestinationPlace =req.body.DestinationPlace;
+            let sourceplace = SourcePlace.toLowerCase();
+            let Destination = DestinationPlace.toLowerCase();
               const newdata= new TripDetails({
+                  Fullname:req.body.Name,
                   VehicleNumber:req.body.VehicleNumber,
-                  SourcePlace:req.body.SourcePlace,
-                  DestinationPlace:req.body.DestinationPlace,
+                  VehileColour:req.body.VehicleColor,
+                  
+                  SourcePlace:sourceplace,
+                  DestinationPlace:Destination,
                   typeOfTrip:req.body.typeOfTrip,
                   dateOfTrip:req.body.dateOfTrip,
                   timeOfTrip:req.body.timeOfTrip,
                   availableSeat:req.body.availableSeat,
                   PhoneNumber:req.body.PhoneNumber,
+                  Price: 0,
+                  Distance:"",
                   IsRider:req.body.IsRider
               })
-              console.log(newdata);
-              const save= await newdata.save()
-              res.json("TripDetails is save")
+            //  console.log(newdata);
+              const save= await newdata.save();
+              if(save){
+                res.json("TripDetails is save")
+              }else{
+                res.json("TripDetails is not save")
+              }
+              
                     
           } catch (error) {
             res.status(409).json({success :false ,message: error }); 
           }
 })
 // getting the all item present in cart
-TripRoute.get('/get',async(req,res)=>{
+TripRoute.get('/',async(req,res)=>{
           console.log("getting the all item present in cart get requst is working");
           try {
                     const specificItem =await TripDetails.find({})
@@ -60,30 +73,42 @@ TripRoute.get('/getpath',async(req,res)=>{
   console.log("/getpath is working");
   try {
  
-let Sp=req.body.SourcePlace || null;
-let dp=req.body.DestinationPlace|| null;
-let dot= req.body.dateOfTrip || null ;
-console.log(dot);
+let Sp=(req.body.SourcePlace || null).toLowerCase();
+let dp=(req.body.DestinationPlace|| null).toLowerCase();
+let dot= req.body.dateOfTrip || null ; 
+console.log(Sp);
 console.log(dp);
 
-if(Sp === null && dp ===null){
-  let date = await TripDetails.find({ dateOfTrip: req.body.dateOfTrip });
+if(Sp === null && dp === null){
+  let date = await TripDetails.find({ dateOfTrip: dot });
   if (date.length != 0) {
+    console.log("hi");
         // If no trips are found based on source and destination places, but trips are found based on the date, return them
-        res.json({ success: true, message: `No trip found based on the date`,query: date });
-    }else{
-      let query = await TripDetails.find({
-        SourcePlace: req.body.SourcePlace,
-        DestinationPlace: req.body.DestinationPlace
-      });   
-      res.json({ success: true, message: query });
+        res.json({ success: true, message: `No trip found! But based on that datetrip is found`,query: date });   
+        return;
     }
+}else{
+  // Finding the Source Place and Destination Place
+let query = await TripDetails.find({
+  SourcePlace: req.body.SourcePlace,
+  DestinationPlace: req.body.DestinationPlace
+});
+res.json({ success: true, message: query });
+return;
 }
-   
-    
+if(Sp ===null){ // If Souce Place is missing 
+  let query = await TripDetails.find({ DestinationPlace: dp});
+  res.json({ success: true, message: `Source Place Is Missing`,query: query });
+  return;
+}else{// If Destination Place is missing then 
+  let query = await TripDetails.find({   SourcePlace: Sp});
+  res.json({ success: true, message: `Destination Place is Missing`,query: query });
+  return;
+}
+
+
   } catch (error) {
     res.status(400).json({success :false ,message: error })
-    
   }
 })
 
