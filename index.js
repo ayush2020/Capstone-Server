@@ -27,6 +27,8 @@ mongoose.set('strictQuery', false);
 const UserRoute = require('./Router/Userouter');
 const TripDetails = require('./Router/TripDetails');
 const RiderLogin = require('./Router/RiderLogin');
+const PassengerRoute = require('./Router/Passenger')
+
 //MiddelWare
 // app.get('/',(req,res)=>{
 //  res.send("Welcome to Saat Chalo backend Page")
@@ -38,6 +40,7 @@ app.get("/",function(req,res){
 app.use('/user', UserRoute);
 app.use('/tripdet',TripDetails);
 app.use('/rider',RiderLogin)
+app.use('/passenger',PassengerRoute)
 
 //PORT: 4000
 
