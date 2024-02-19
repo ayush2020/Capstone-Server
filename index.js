@@ -2,16 +2,11 @@ require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 
-const bodyParser=require('body-parser')
-// dc
-// const jwt = require('jsonwebtoken')
-
 const cors = require('cors');
 
 const app = express();
 app.use(cors({origin:'*'}));
 mongoose.set('strictQuery', false);
-app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cors({origin: '*'}))
 
@@ -29,10 +24,7 @@ const TripDetails = require('./Router/TripDetails');
 const RiderLogin = require('./Router/RiderLogin');
 const PassengerRoute = require('./Router/Passenger')
 
-//MiddelWare
-// app.get('/',(req,res)=>{
-//  res.send("Welcome to Saat Chalo backend Page")
-// })
+
 app.get("/",function(req,res){
     res.sendFile(__dirname+"/index.html");
 });
