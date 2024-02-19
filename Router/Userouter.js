@@ -2,7 +2,7 @@ const Useroute =require('express').Router();
 const bcrypt = require("bcrypt");
 
 const User =require('../Model/Users');
-LocalStrategy = require('passport-local').Strategy;
+
 
 const jwt = require('jsonwebtoken')
 
