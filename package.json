@@ -19,6 +19,7 @@
   "homepage": "https://github.com/raiayush2610/Capstone-Server#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.4",
     "jsonwebtoken": "^9.0.2"
   }
 }

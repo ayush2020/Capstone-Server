@@ -3,17 +3,20 @@ POST http://localhost:4000/passenger
 Content-Type: application/json
 
 {
-    "FullName": "Sham",
-    "Email":"ayush@gmail.com",
+    "FullName": "ram",
+    "Email":"ram22012022@gmail.com",
     "Gender":"male",
-    "SourcePlace": "Bombay",
-    "DestinationPlace": "Goa",
+    "SourcePlace": "Lanka",
+    "DestinationPlace": "Ayodhya",
     "typeOfTrip": "One-way",
-    "dateOfTrip": "2024-02-25",
-    "timeOfTrip": "09:00",
-    "PhoneNumber": "8840099604",
+    "dateOfTrip": "2022-01-22",
+    "timeOfTrip": "12:34",
+    "PhoneNumber": "121212121212",
     "Rating":5,
-    "Price":2500,
-    "Distance":"100KM",
-    "IsRider": true  
+    "Price":100,
+    "Distance":"800KM",
+    "IsRider": false  
 }
+###
+GET http://localhost:4000/passenger
+Content-Type: application/json
