@@ -1,6 +1,6 @@
 
 ###
-GET  http://localhost:4000/user/get
+GET  http://localhost:4000/user
 Content-Type: application/json
 ###
 GET  http://localhost:4000/user/getemail/123456@gmail.com

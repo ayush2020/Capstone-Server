@@ -16,7 +16,7 @@ RiderRoute.post('/post', async(req, res) => {
         const plainPassword = req.body.Password;
         const hashPassword = bcrypt.hashSync(plainPassword, 2);
         const newdata = new RiderLogin({
-            Fullname: req.body.Name,
+            FullName: req.body.Name,
             Email: emailLowerCase,
             PhoneNumber: req.body.PhoneNumber,
             Licenseno: req.body.Licenseno,

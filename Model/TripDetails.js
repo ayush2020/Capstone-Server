@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const TripDetails = new mongoose.Schema({
-    Fullname: String,
+    FullName: String,
     VehicleNumber: {
         type: String,
         unique: true
@@ -32,8 +32,8 @@ const TripDetails = new mongoose.Schema({
         type: Number
     },
     Distance: {
-        type: Number,
-        default: 0
+        type: String,
+        default: "0KM"
     },
 
     IsRider: Boolean

@@ -16,15 +16,20 @@ POST http://localhost:4000/tripdet
 Content-Type: application/json
 
 {
-        "Name": "John Doe",
-    "VehicleNumber": "KA02AB1234",
-    "SourcePlace": "Bangalore",
-    "DestinationPlace": "Mysore",
+    "Name": "Sham",
+    "VehicleNumber": "MH02AH1234",
+    "VehicleName":"SUZUKU",
+    "VehicleColour":"Black ",
+    "SourcePlace": "Bombay",
+    "DestinationPlace": "Goa",
     "typeOfTrip": "One-way",
-    "dateOfTrip": "2022-01-01",
+    "dateOfTrip": "2024-02-25",
     "timeOfTrip": "09:00",
     "availableSeat": "2",
-    "PhoneNumber": "1234567890",
+    "PhoneNumber": "8840099604",
+    "Rating":5,
+    "Price":2500,
+    "Distance":"100KM",
     "IsRider": true  
 
 }

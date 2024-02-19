@@ -1,7 +1,7 @@
 const mongoose =require('mongoose');
 
 const PassengerTrip = new mongoose.Schema({
-        Fullname:String,
+        FullName:String,
         Email: {
             type:String,
             unique: true
@@ -28,8 +28,8 @@ const PassengerTrip = new mongoose.Schema({
             type: Number
         },
         Distance: {
-            type: Number,
-            default: 0
+            type: String,
+            default: "0KM"
         },
         IsRider:Boolean,
 

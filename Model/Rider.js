@@ -1,7 +1,7 @@
 const mongoose =require('mongoose');
 
 const Rider = new mongoose.Schema({
-          Fullname:String,
+          FullName:String,
           Email: {
             type:String,
             unique: true

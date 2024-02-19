@@ -10,7 +10,7 @@ TripRoute.post('/', async (req,res)=>{
             let sourceplace = SourcePlace.toLowerCase();
             let Destination = DestinationPlace.toLowerCase();
               const newdata= new TripDetails({
-                  Fullname:req.body.Name,
+                  FullName:req.body.Name,
                   VehicleNumber:req.body.VehicleNumber,
                   VehicleColour:req.body.VehicleColor,
                   VehicleName:req.body.VehicleName,

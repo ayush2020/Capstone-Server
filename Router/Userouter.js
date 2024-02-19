@@ -26,7 +26,7 @@ Useroute.post('/post', async (req,res)=>{
                 //  return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' })
                   const hashPassword = bcrypt.hashSync(plainPassword, 2);
                       const newdata= new User({
-                              Fullname:req.body.FullName,
+                              FullName:req.body.FullName,
                               Email:emailLowerCase,
                               PhoneNumber:PhoneNumber,
                               Password:hashPassword,
