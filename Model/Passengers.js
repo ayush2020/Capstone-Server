@@ -7,7 +7,7 @@ const PassengerTrip = new mongoose.Schema({
             unique: true
         },
           PhoneNumber:{
-            type:Number,
+            type:String,
             unique: true
         },
         Gender:{

@@ -7,7 +7,7 @@ const Rider = new mongoose.Schema({
             unique: true
         },
           PhoneNumber:{
-            type:Number,
+            type:String,
             unique: true
         },
           Licenseno:String,
