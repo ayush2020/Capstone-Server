@@ -21,6 +21,7 @@ RiderRoute.post('/post', async(req, res) => {
             PhoneNumber: req.body.PhoneNumber,
             Licenseno: req.body.Licenseno,
             Vehicleno: req.body.Vehicleno,
+            AadharNo:req.body.AadharNo,
             Password: hashPassword,
             Rc: req.body.Rc,
             IsRider: true

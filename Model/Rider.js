@@ -10,6 +10,11 @@ const Rider = new mongoose.Schema({
             type:String,
             unique: true
         },
+        AadharNo:{
+          type :Number,
+          unique:true,
+          require:true
+        },
           Licenseno:String,
           Vehicleno:String,
           Password:String,

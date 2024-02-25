@@ -12,7 +12,7 @@ TripRoute.post('/', async (req,res)=>{
               const newdata= new TripDetails({
                   FullName:req.body.Name,
                   VehicleNumber:req.body.VehicleNumber,
-                  VehicleColour:req.body.VehicleColor,
+                  VehicleColour:req.body.VehicleColour,
                   VehicleName:req.body.VehicleName,
                   SourcePlace:sourceplace,
                   DestinationPlace:Destination,
