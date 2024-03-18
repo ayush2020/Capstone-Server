@@ -71,13 +71,13 @@ RiderRoute.post("/adminLogin", async function (req, res) {
         if (existingUser === null) {
             res.json({success: false, message: 'Rider does not exist!'})
         } else {
-            const {_id: id, Fullname, Email, Password, IsRider} = existingUser;
-            console.log(Fullname);
+            const {_id: id, FullName, Email, Password, IsRider} = existingUser;
+            console.log(FullName);
             if (bcrypt.compareSync(reqPassword, Password) === true) {
 
                 const token = jwt.sign({
                     id,
-                    Fullname
+                    FullName
                 }, process.env.JWT_SECRET, {expiresIn: 60})
 
                 res
@@ -86,7 +86,7 @@ RiderRoute.post("/adminLogin", async function (req, res) {
                         success: true,
                         result: {
                             id,
-                            Fullname,
+                            FullName,
                             Email,
                             token,
                             IsRider
