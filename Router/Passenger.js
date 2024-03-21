@@ -8,9 +8,10 @@ PassengerRoute.post('/', async (req,res)=>{
             let SourcePlace= (req.body.SourcePlace).toLowerCase() || "";            
             let DestinationPlace =(req.body.DestinationPlace).toLowerCase() || "";
             const Email = (req.body.Email).toLowerCase();
-            console.log(req.body.PhoneNumber);
-            console.log(SourcePlace);
-            console.log(DestinationPlace);
+            // console.log(req.body.PhoneNumber);
+            // console.log(SourcePlace);
+            // console.log(DestinationPlace);
+            // console.log(req.body.FullName);
             
             const PhoneNumber =req.body.PhoneNumber
            
@@ -21,7 +22,7 @@ PassengerRoute.post('/', async (req,res)=>{
             
             if(foundEmail ==false  && foundPhone==false){
               const newdata= new Passenger({
-                  FullName:req.body.Name,
+                  FullName:req.body.FullName,
                   Email:Email,
                   PhoneNumber:req.body.PhoneNumber,
                   Gender :req.body.Gender,
@@ -53,7 +54,7 @@ PassengerRoute.post('/', async (req,res)=>{
           }
 })
 // getting the all item present in cart
-PassengerRoute.get('/',async(req,res)=>{
+PassengerRoute.get('/get',async(req,res)=>{
           console.log("getting the all item present in cart get requst is working");
           try {
                     const specificItem =await Passenger.find({})
