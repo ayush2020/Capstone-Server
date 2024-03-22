@@ -5,7 +5,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-app.use(cors({origin:'*'}));
+let corsAllow = {
+    origin : "*",
+    methods: "PUT, GET, POST, DELETE, OPTIONS, PATCH HEAD",
+    Credentials: true,
+}
+app.use(cors(corsAllow));
 mongoose.set('strictQuery', false);
 
 app.use(express.json());
