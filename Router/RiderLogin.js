@@ -93,7 +93,7 @@ RiderRoute.post("/adminLogin", async function (req, res) {
                         }
                     })
             } else if (bcrypt.compareSync(reqPassword, Password) === false) {
-                res.json({success: false, message: 'Password is wrong'});
+                res.json({success: false, message: 'Password is must wrong'});
             }
         }
     } catch (error) {
