@@ -7,8 +7,8 @@ const cors = require('cors');
 const app = express();
 let corsAllow = {
     origin : "*",
-    methods: "PUT, GET, POST, DELETE, OPTIONS, PATCH HEAD",
-    Credentials: true,
+    // methods: "PUT, GET, POST, DELETE, OPTIONS, PATCH HEAD",
+    // Credentials: true,
 }
 app.use(cors(corsAllow));
 mongoose.set('strictQuery', false);
