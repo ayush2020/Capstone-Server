@@ -56,8 +56,9 @@ Useroute.post("/adminLogin",async function(req,res){
       if(existingUser === null){
         res.json({ success: false, message: 'User does not exist!' })
       }else{
-      const { _id: id, Fullname,Email,Password,IsRider } = existingUser;
+      const { _id: id, FullName,Email,Password,IsRider } = existingUser;
       // destructing the id FullName,Password,IsRider From data 
+      console.log("he");
           // console.log(reqPassword);
           // console.log(Password);
           
@@ -66,13 +67,13 @@ Useroute.post("/adminLogin",async function(req,res){
           const token = jwt.sign(
             {
                 id,
-                Fullname
+                FullName
             },
             process.env.JWT_SECRET,
             { expiresIn: 60 }
         )
         //  If the All good the send the to client side
-        res.status(200).json({ success: true, result: { id, Fullname, Email,IsRider,token } })
+        res.status(200).json({ success: true, result: { id, FullName, Email,IsRider,token } })
         }else if(bcrypt.compareSync(reqPassword, Password) === false){
           res.json({ success: false, message: 'Password is wrong' });
         }
