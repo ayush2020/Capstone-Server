@@ -56,8 +56,9 @@ Useroute.post("/adminLogin",async function(req,res){
       if(existingUser === null){
         res.json({ success: false, message: 'User does not exist!' })
       }else{
-      const { _id: id, Fullname,Email,Password,IsRider } = existingUser;
+      const { _id: id, FullName,Email,Password,IsRider } = existingUser;
       // destructing the id FullName,Password,IsRider From data 
+      console.log("he");
           // console.log(reqPassword);
           // console.log(Password);
           
@@ -66,13 +67,13 @@ Useroute.post("/adminLogin",async function(req,res){
           const token = jwt.sign(
             {
                 id,
-                Fullname
+                FullName
             },
             process.env.JWT_SECRET,
             { expiresIn: 60 }
         )
         //  If the All good the send the to client side
-        res.status(200).json({ success: true, result: { id, Fullname, Email,IsRider,token } })
+        res.status(200).json({ success: true, result: { id, FullName, Email,IsRider,token } })
         }else if(bcrypt.compareSync(reqPassword, Password) === false){
           res.json({ success: false, message: 'Password is wrong' });
         }
@@ -95,9 +96,19 @@ Useroute.get('/get',async(req,res)=>{
                     res.json(error);
           }
 })
+// getting the all item present in cart
+Useroute.get('/get/:id',async(req,res)=>{
+ console.log (`getting request from /get/${req.params.id}` );
+          try {
+              const specificItem =await User.find({_id:req.params.id});
+              res.status(200).json({ success: true, message: specificItem })
+          } catch (error) {
+                    res.json(error);
+          }
+})
 // Getting the specific item with help of email
 Useroute.get('/getemail/:email',async(req,res) =>{
-  console.log(`/getemail/${req.params.email} is working`);
+  console.log(` getting req from /getemail/${req.params.email} `);
   const data =req.params.email;
   
     try {

@@ -57,7 +57,17 @@ PassengerRoute.post('/', async (req,res)=>{
 PassengerRoute.get('/get',async(req,res)=>{
           console.log("getting the all item present in cart get requst is working");
           try {
-                    const specificItem =await Passenger.find({})
+                    const AllItem =await Passenger.find({})
+                    res.status(200).json(AllItem)
+          } catch (error) {
+                   res.status(400).json({success :false ,message: error })
+          }
+})
+// getting the item by its ID present in cart
+PassengerRoute.get('/get/:id',async(req,res)=>{
+          console.log(`/get/${req.params.id} get req  from PassengerRoute`);
+          try {
+                    const specificItem =await Passenger.find({_id:req.params.id});
                     res.status(200).json(specificItem)
           } catch (error) {
                    res.status(400).json({success :false ,message: error })
@@ -71,6 +81,16 @@ PassengerRoute.get('/getphone/:phone',async(req,res) =>{
  
     try {
       let query =await Passenger.findOne({PhoneNumber: data})
+      res.json({success: true,Data:query});
+    }catch (error) {res.json(error);}
+})
+// Getting the specific Email item with help of phone
+PassengerRoute.get('/getemail/:email',async(req,res) =>{
+  console.log(`/getemail/${req.params.email}`);
+  const data =req.params.email;
+ 
+    try {
+      let query =await Passenger.findOne({Email: data})
       res.json({success: true,Data:query});
     }catch (error) {res.json(error);}
 })
