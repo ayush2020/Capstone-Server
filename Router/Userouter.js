@@ -96,9 +96,19 @@ Useroute.get('/get',async(req,res)=>{
                     res.json(error);
           }
 })
+// getting the all item present in cart
+Useroute.get('/get/:id',async(req,res)=>{
+ console.log (`getting request from /get/${req.params.id}` );
+          try {
+              const specificItem =await User.find({_id:req.params.id});
+              res.status(200).json({ success: true, message: specificItem })
+          } catch (error) {
+                    res.json(error);
+          }
+})
 // Getting the specific item with help of email
 Useroute.get('/getemail/:email',async(req,res) =>{
-  console.log(`/getemail/${req.params.email} is working`);
+  console.log(` getting req from /getemail/${req.params.email} `);
   const data =req.params.email;
   
     try {

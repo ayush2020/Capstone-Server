@@ -40,9 +40,20 @@ TripRoute.post('/', async (req,res)=>{
 })
 // getting the all item present in cart
 TripRoute.get('/',async(req,res)=>{
-          console.log("getting the all item present in cart get requst is working");
+          console.log("getting the all item present in cart get request is working");
           try {
                     const specificItem =await TripDetails.find({})
+                    res.status(200).json(specificItem)
+          } catch (error) {
+                   res.status(400).json({success :false ,message: error })
+          }
+})
+// getting the particular item present in cart
+TripRoute.get('/get/:id',async(req,res)=>{
+          console.log(`/get/${req.params.id} get re is working`);
+          try {
+                    const specificItem =await TripDetails.find({_id: req.params.id});
+                    console.log("kd")
                     res.status(200).json(specificItem)
           } catch (error) {
                    res.status(400).json({success :false ,message: error })

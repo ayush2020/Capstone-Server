@@ -58,6 +58,17 @@ RiderRoute.get('/get', async(req, res) => {
             .json({success: false, message: "SomeThing went wrong"});
     }
 })
+// getting the item by its ID present in cart
+RiderRoute.get('/get/:id',async(req,res)=>{
+    console.log(`/get/${req.params.id} get req from Rider Login `);
+    try {
+              const specificItem =await RiderRoute.find({_id:req.params.id});
+              res.status(200).json(specificItem)
+    } catch (error) {
+             res.status(400).json({success :false ,message: error })
+    }
+})
+// Admin Login
 RiderRoute.post("/adminLogin", async function (req, res) {
     try {
         console.log("rider/adminlogin");

@@ -13,3 +13,10 @@ Content-Type: application/json
          "DestinationPlace":"Chennai",
          "dateOfTrip":"26-01-2022"
 }
+###
+GET  http://localhost:4000/rider/get/65d974e31eb963421af40dc9
+Content-Type: application/json
+###
+
+
+
