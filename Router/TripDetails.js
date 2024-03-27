@@ -7,14 +7,15 @@ TripRoute.post('/', async (req,res)=>{
           try {   
             let SourcePlace= req.body.SourcePlace;
             let DestinationPlace =req.body.DestinationPlace;
-            let sourceplace = SourcePlace.toLowerCase();
+            let sourcePlace = SourcePlace.toLowerCase();
             let Destination = DestinationPlace.toLowerCase();
-              const newdata= new TripDetails({
+              const newData= new TripDetails({
                   FullName:req.body.Name,
+                  Email:req.body.Email,
                   VehicleNumber:req.body.VehicleNumber,
-                  VehicleColour:req.body.VehicleColour,
+                  VehicleColor:req.body.VehicleColor,
                   VehicleName:req.body.VehicleName,
-                  SourcePlace:sourceplace,
+                  SourcePlace:sourcePlace,
                   DestinationPlace:Destination,
                   typeOfTrip:req.body.typeOfTrip,
                   dateOfTrip:req.body.dateOfTrip,
@@ -25,16 +26,18 @@ TripRoute.post('/', async (req,res)=>{
                   Distance:req.body.Distance,
                   IsRider:req.body.IsRider
               })
-            //  console.log(newdata);
-              const save= await newdata.save();
-              if(save){
+             console.log(newData);
+              const save= await newData.save();
+
+             
                 res.json("TripDetails is save")
-              }else{
-                res.json("TripDetails is not save")
-              }
+              // }else{
+              //   res.json("TripDetails is not save")
+              // }
               
                     
           } catch (error) {
+            console.log(error);
             res.status(409).json({success :false ,message: error }); 
           }
 })

@@ -91,11 +91,7 @@ RiderRoute.post("/adminLogin", async function (req, res) {
                     FullName
                 }, process.env.JWT_SECRET, {expiresIn: 60})
 
-                res
-                    .status(200)
-                    .json({
-                        success: true,
-                        result: {
+                res.status(200).json({success: true,result: {
                             id,
                             FullName,
                             Email,
@@ -143,7 +139,7 @@ RiderRoute.get('/getemail/:email', async(req, res) => {
 
 async function findPhone(phone) {
     try {
-        console.log(" iam call ed phone");
+        console.log(" iam call Phone from RiderLogin");
 
         let res = await RiderLogin.findOne({PhoneNumber: phone})
         console.log(res);

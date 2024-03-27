@@ -1,4 +1,5 @@
 const Useroute =require('express').Router();
+
 const bcrypt = require("bcrypt");
 
 const User =require('../Model/Users');
@@ -21,8 +22,9 @@ Useroute.post('/post', async (req,res)=>{
             let foundPhone = await findPhone(PhoneNumber);
             let foundEmail = await findEmail(emailLowerCase);
            
-            if(foundEmail ==false  && foundPhone==false){
+            if(foundEmail.success ==false  && foundPhone.success==false){
                 // if (plainPassword.length < 6)
+                console.log("I am call from user/post");
                 //  return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' })
                   const hashPassword = bcrypt.hashSync(plainPassword, 2);
                       const newdata= new User({
@@ -33,7 +35,7 @@ Useroute.post('/post', async (req,res)=>{
                               IsRider:req.body.IsRider
                       })
                       const save= await newdata.save()
-                      res.json("User is save")
+                      res.json({success :true ,message:"User is save"})
                     }else{
                       res.status(400).json({success :false ,message: "Email or Password already Register" })
                     }
@@ -124,7 +126,8 @@ Useroute.get('/getboth/:email/:phone',async(req,res) =>{
   
     let foundPhone = await findPhone(phone);
     let foundEmail = await findEmail(email);
-   let ans = foundEmail || foundPhone;
+    console.log(foundPhone);
+   let ans = foundEmail.success || foundPhone.success;
   //(`FoundPhone ${foundPhone} \nFoundEmail:${foundEmail} ans ${ans}`
   //           )
    res.json(ans)
@@ -134,13 +137,13 @@ Useroute.get('/getboth/:email/:phone',async(req,res) =>{
 })
 async function findPhone(phone){
   try {
-    console.log(" iam call ed phone");
+    console.log(" iam call ed phone from UserRouter");
     
     let res= await User.findOne({PhoneNumber: phone})
     if(res!==null){
-      return true
+      return {success: true, message: res._id }
     }else{
-      return false
+      return {success:false, message: "Not Found"}
     }
     
   } catch (error) {
@@ -151,9 +154,9 @@ async function findEmail(email){
   try {
     let res= await User.findOne({Email: email})
     if(res!==null){
-      return true
+      return{success: true, message: res}
     }else{
-      return false
+      return {false: true, message: "Not Found"}
     }
   } catch (error) {
     console.log(error);

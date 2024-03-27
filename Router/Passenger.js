@@ -17,10 +17,10 @@ PassengerRoute.post('/', async (req,res)=>{
            
             let foundPhone = await findPhone(PhoneNumber);
             let foundEmail = await findEmail(Email);
-            // console.log(foundEmail);
-            // console.log(foundPhone);
+            console.log(foundEmail);
+            console.log(foundPhone);
             
-            if(foundEmail ==false  && foundPhone==false){
+            if(foundEmail.success ==false  && foundPhone.success==false){
               const newdata= new Passenger({
                   FullName:req.body.FullName,
                   Email:Email,
@@ -38,9 +38,9 @@ PassengerRoute.post('/', async (req,res)=>{
              console.log(newdata);
               const save= await newdata.save();
               if(save){
-                res.json("Passenger is save")
+                res.status(400).json({success :true, message: "Save Successfully"})
               }else{
-                res.json("Passenger is not save")
+                res.json({success :false, message: "not Save"})
               }
             }else{
                 res.status(400).json({success :false ,message: "Email or Password already Register" })
@@ -138,10 +138,25 @@ if(Sp ===null){ // If Souce Place is missing
     res.status(400).json({success :false ,message: error })
   }
 })
+// Update the  passenger by its Email
+PassengerRoute.put('/update/:email',async(req,res)=>{
+  console.log(`/update/${req.params.email} put request is working`);
+  try {
+    const PassengerEmail =req.params.email;
+    let  RiderEmail =req.body.RiderEmail;
+    console.log(RiderEmail);
+    console.log("this is  Rider Email "+req.body.RiderEmail)
+    const updateData = await Passenger.updateOne({Email:PassengerEmail},{$set:{RiderEmail: RiderEmail}});
+    console.log(updateData);
+    res.json({success: true, message: "Booked Successfully"});
+  } catch (error) {
+    res.json({success: false, message: error})
+}
+})
 
 // Delete all
 PassengerRoute.delete('/empty',async (req, res)=>{
-          console.log("/cart/empty get rquest is working");
+          console.log("/cart/empty get request is working");
           try {
               const deleteAll = await Passenger.deleteMany(); 
               res.status(200).json({success :true ,message:"Items_ALL_Deleted"});       
@@ -152,13 +167,13 @@ PassengerRoute.delete('/empty',async (req, res)=>{
 
 async function findPhone(phone){
 try {
-    console.log(" iam call ed phone");
+    console.log(" i am call From Passenger route  phone");
     
     let res= await Passenger.findOne({PhoneNumber: phone})
     if(res!==null){
-    return true
+    return {success: true, message: "Phone Found", data: res}
     }else{
-    return false
+    return {success: false, message: "Phone Not Found"}
     }
     
 } catch (error) {
@@ -169,9 +184,9 @@ async function findEmail(email){
 try {
     let res= await Passenger.findOne({Email: email})
     if(res!==null){
-    return true
+    return {success: true, message: "Email Found", Data: res}
     }else{
-    return false
+    return {success: false, message: "Email Not Found"}
     }
 } catch (error) {
     console.log(error);

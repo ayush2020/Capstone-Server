@@ -32,6 +32,15 @@ const PassengerTrip = new mongoose.Schema({
             default: "0KM"
         },
         IsRider:Boolean,
+        
+        RiderEmail: {
+            type : String,
+            default: "Not Assigned"
+        },
+        confirmRide:{
+            type:Boolean,
+            default:false
+        },
 
 })
 module.exports =mongoose.model("Passengers",PassengerTrip);

@@ -14,7 +14,7 @@ Content-Type: application/json
          "dateOfTrip":"26-01-2022"
 }
 ###
-GET  http://localhost:4000/rider/get/65d974e31eb963421af40dc9
+GET  http://localhost:4000/rider/get/65d2df001653d6331502eba8
 Content-Type: application/json
 ###
 
