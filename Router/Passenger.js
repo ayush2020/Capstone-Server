@@ -148,12 +148,37 @@ PassengerRoute.put('/update/:email',async(req,res)=>{
     console.log("this is  Rider Email "+req.body.RiderEmail)
     const updateData = await Passenger.updateOne({Email:PassengerEmail},{$set:{RiderEmail: RiderEmail}});
     console.log(updateData);
-    res.json({success: true, message: "Booked Successfully"});
+    res.json({success: true, message: "Booking Raised Confirming  from Rider Side"});
   } catch (error) {
     res.json({success: false, message: error})
 }
 })
-
+// Passenger rider confirmation
+PassengerRoute.put('/confirm/:id',async(req,res)=>{
+  console.log(`/confirm/${req.params.id} put request is working`);
+  try {
+    let passengerId =req.params.id;
+   
+    
+    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{confirmRide: true,RejectRide:false}});
+    // console.log(updateData);
+    res.json({success: true, message: "Confirm  Successfully"});
+  } catch (error) {
+    res.json({success: false, message:" error"})
+}
+})
+// Passenger rider Reject
+PassengerRoute.put('/reject/:id',async(req,res)=>{
+  console.log(`/reject/${req.params.id} put request is working`);
+  try {
+    let passengerId =req.params.id;
+    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{RejectRide: true,confirmRide:false}});
+    // console.log(updateData);
+    res.json({success: true, message: "Rejected Successfully"});
+  } catch (error) {
+    res.json({success: false, message: error})
+}
+})
 // Delete all
 PassengerRoute.delete('/empty',async (req, res)=>{
           console.log("/cart/empty get request is working");

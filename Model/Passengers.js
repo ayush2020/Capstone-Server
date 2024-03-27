@@ -41,6 +41,10 @@ const PassengerTrip = new mongoose.Schema({
             type:Boolean,
             default:false
         },
+        RejectRide:{
+            type:Boolean,
+            default:false
+        }
 
 })
 module.exports =mongoose.model("Passengers",PassengerTrip);
