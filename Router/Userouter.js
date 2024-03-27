@@ -20,8 +20,10 @@ Useroute.post('/post', async (req,res)=>{
             const PhoneNumber =req.body.PhoneNumber
             const emailLowerCase = Email.toLowerCase()
             let foundPhone = await findPhone(PhoneNumber);
-            let foundEmail = await findEmail(emailLowerCase);
            
+            let foundEmail = await findEmail(emailLowerCase);
+            console.log("Regi "+foundEmail);
+            console.log("Regi "+foundPhone);
             if(foundEmail.success ==false  && foundPhone.success==false){
                 // if (plainPassword.length < 6)
                 console.log("I am call from user/post");
@@ -139,7 +141,8 @@ async function findPhone(phone){
   try {
     console.log(" iam call ed phone from UserRouter");
     
-    let res= await User.findOne({PhoneNumber: phone})
+    let res= await User.findOne({PhoneNumber: phone});
+    console.log(res);
     if(res!==null){
       return {success: true, message: res._id }
     }else{
@@ -147,7 +150,7 @@ async function findPhone(phone){
     }
     
   } catch (error) {
-    console.log(error);
+    console.log("ushchdsj");
   }
 }
 async function findEmail(email){
@@ -156,7 +159,7 @@ async function findEmail(email){
     if(res!==null){
       return{success: true, message: res}
     }else{
-      return {false: true, message: "Not Found"}
+      return {success: false, message: "Not Found"}
     }
   } catch (error) {
     console.log(error);
