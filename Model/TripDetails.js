@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const TripDetails = new mongoose.Schema({
     FullName: String,
+    Email: {
+        type: String,
+        unique: true
+    },
     VehicleNumber: {
         type: String,
         unique: true
@@ -9,7 +13,7 @@ const TripDetails = new mongoose.Schema({
     VehicleName: {
         type: String
     },
-    VehicleColour: {
+    VehicleColor: {
         type: String
     },
     SourcePlace: String,
