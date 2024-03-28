@@ -33,7 +33,8 @@ PassengerRoute.post('/', async (req,res)=>{
                   timeOfTrip:req.body.timeOfTrip,                 
                   Price: req.body.Price,
                   Distance:req.body.Distance,
-                  IsRider:req.body.IsRider
+                  IsRider:req.body.IsRider,
+                  
               })
              console.log(newdata);
               const save= await newdata.save();
@@ -74,7 +75,7 @@ PassengerRoute.get('/get/:id',async(req,res)=>{
           }
 })
 
-// Getting the specific phoneno item with help of phone
+// Getting the specific  Passenger with help of phone
 PassengerRoute.get('/getphone/:phone',async(req,res) =>{
   console.log(`/getphone/${req.params.phone}`);
   const data =req.params.phone;
@@ -84,7 +85,7 @@ PassengerRoute.get('/getphone/:phone',async(req,res) =>{
       res.json({success: true,Data:query});
     }catch (error) {res.json(error);}
 })
-// Getting the specific Email item with help of phone
+// Getting the specific  Passenger with help of Emai;
 PassengerRoute.get('/getemail/:email',async(req,res) =>{
   console.log(`/getemail/${req.params.email}`);
   const data =req.params.email;
@@ -92,6 +93,17 @@ PassengerRoute.get('/getemail/:email',async(req,res) =>{
     try {
       let query =await Passenger.findOne({Email: data})
       res.json({success: true,Data:query});
+    }catch (error) {res.json(error);}
+})
+// Getting the Passenger details of Rider is REject or Accepted with  help Email 
+PassengerRoute.get('/approval/:email',async(req,res) =>{
+  console.log(`/getemail/${req.params.email}`);
+  const data =req.params.email;
+ 
+    try {
+      let query =await Passenger.findOne({Email: data})
+      
+      res.json({success: true,ConfirmRide:query.confirmRide,RejectRide:query.RejectRide});
     }catch (error) {res.json(error);}
 })
 
@@ -148,7 +160,7 @@ PassengerRoute.put('/update/:email',async(req,res)=>{
     console.log("this is  Rider Email "+req.body.RiderEmail)
     const updateData = await Passenger.updateOne({Email:PassengerEmail},{$set:{RiderEmail: RiderEmail}});
     console.log(updateData);
-    res.json({success: true, message: "Booking Raised Confirming  from Rider Side"});
+    res.json({success: true, message: "Booking"});
   } catch (error) {
     res.json({success: false, message: error})
 }
