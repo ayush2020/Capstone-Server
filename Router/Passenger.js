@@ -174,7 +174,7 @@ PassengerRoute.put('/confirm/:id',async(req,res)=>{
     
     const updateData = await Passenger.updateOne({_id:passengerId},{$set:{confirmRide: true,RejectRide:false}});
     // console.log(updateData);
-    res.json({success: true, message: "Confirm  Successfully"});
+    res.json({success: true, message: "booked successfully"});
   } catch (error) {
     res.json({success: false, message:" error"})
 }
@@ -186,7 +186,7 @@ PassengerRoute.put('/reject/:id',async(req,res)=>{
     let passengerId =req.params.id;
     const updateData = await Passenger.updateOne({_id:passengerId},{$set:{RejectRide: true,confirmRide:false}});
     // console.log(updateData);
-    res.json({success: true, message: "Rejected Successfully"});
+    res.json({success: true, message: "rejected successfully"});
   } catch (error) {
     res.json({success: false, message: error})
 }
