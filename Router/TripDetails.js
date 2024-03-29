@@ -1,9 +1,11 @@
 const TripRoute =require('express').Router();
 
+
 const TripDetails =require('../Model/TripDetails');
 
 TripRoute.post('/', async (req,res)=>{
           console.log("TripDetails post require is working");
+          console.log(req.body.PhoneNumber);
           try {   
             let SourcePlace= req.body.SourcePlace;
             let DestinationPlace =req.body.DestinationPlace;
@@ -20,7 +22,7 @@ TripRoute.post('/', async (req,res)=>{
                   typeOfTrip:req.body.typeOfTrip,
                   dateOfTrip:req.body.dateOfTrip,
                   timeOfTrip:req.body.timeOfTrip,
-                  availableSeat:req.body.availableSeat,
+                  AvailableSeat:req.body.availableSeat,
                   PhoneNumber:req.body.PhoneNumber,
                   Price: req.body.Price,
                   Distance:req.body.Distance,
@@ -43,7 +45,7 @@ TripRoute.post('/', async (req,res)=>{
 })
 // getting the all item present in cart
 TripRoute.get('/',async(req,res)=>{
-          console.log("getting the all item present in cart get request is working");
+          console.log("getting the all item present from TripDetails.js");
           try {
                     const specificItem =await TripDetails.find({})
                     res.status(200).json(specificItem)
@@ -53,7 +55,7 @@ TripRoute.get('/',async(req,res)=>{
 })
 // getting the particular item present in cart
 TripRoute.get('/get/:id',async(req,res)=>{
-          console.log(`/get/${req.params.id} get re is working`);
+          console.log(`/get/${req.params.id} get re is working from TripDetails.js`);
           try {
                     const specificItem =await TripDetails.find({_id: req.params.id});
                     console.log("kd")
@@ -83,46 +85,111 @@ TripRoute.get('/getingVehicleNo/:VehicleNo',async(req,res) =>{
       }catch (error) {res.json(error);}
   })
 // Geting the path on basic of Source and Destination  
-TripRoute.get('/getpath',async(req,res)=>{
-  console.log("/getpath is working");
-  try {
- 
-let Sp=(req.body.SourcePlace || null).toLowerCase();
-let dp=(req.body.DestinationPlace|| null).toLowerCase();
-let dot= req.body.dateOfTrip || null ; 
-console.log(Sp);
-console.log(dp);
-
-if(Sp === null && dp === null){
-  let date = await TripDetails.find({ dateOfTrip: dot });
-  if (date.length != 0) {
-    console.log("hi");
-        // If no trips are found based on source and destination places, but trips are found based on the date, return them
-        res.json({ success: true, message: `No trip found! But based on that datetrip is found`,query: date });   
-        return;
+TripRoute.post('/getpath',async(req,res)=>{
+    console.log("/getpath is working from TripDetails.js");
+    let Sp=(req.body.SourcePlace || null)
+    let dp=(req.body.DestinationPlace|| null)
+    let dot= req.body.dateOfTrip || null ; 
+    console.log(dp);
+    console.log(Sp);
+    if(Sp === null && dp === null && dot === null){
+    console.log("All are null");  
     }
-}else{
+  try {
+    if(Sp === null && dp === null){
+      console.log("Both are null");
+    if(dot !== null){ 
+      let date = await TripDetails.find({ dateOfTrip: dot });
+      if (date.length != 0) {
+        console.log("hi");
+            // If no trips are found based on source and destination places, but trips are found based on the date, return them
+            res.json({ success: true, message: `Trip found! But based on that date`,query: date });   
+            
+        }else{
+            res.json({ success: false, message: `No trip found! on that date ` });
+        }
+      }else{
+        console.log("Date is missing");
+        res.json({ success: false, message: `Date is missing` });
+      }
+    }
+
+
+if(dp != null && Sp != null){ 
+  try {
+    console.log("dp and sp are not null");
+  
+      let sourcePlace = await TripDetails.find({   SourcePlace: Sp});
+      if (sourcePlace.length != 0) {
+        let destinationPlace = await TripDetails.find({ DestinationPlace: dp});
+        if (destinationPlace.length != 0) {
+          res.json({ success: true, message: `Trips found based on source and destination places`, query: destinationPlace});
+        }else{
+          res.json({ success: false, message: `Destination is missing` });
+        }
+          
+      }else{
+        try {
+          console.log("Source Place Isff  Missing");
+        let destinationPlace = await TripDetails.find({ DestinationPlace: dp });
+          
+        if (destinationPlace.length != 0) {
+          res.json({ success: true, message: `Source Place Is Missing`,query: destinationPlace });
+        }else{
+          res.json({ success: false, message: `to Trip Available` });
+        }
+      } catch (error) {
+        console.log("some error in destinationPlace");
+      }
+    }
+
+  return;
+  } catch (error) {
+    console.log("dp and sp are null");
+  }
+}
   // Finding the Source Place and Destination Place
-let query = await TripDetails.find({
-  SourcePlace: req.body.SourcePlace,
-  DestinationPlace: req.body.DestinationPlace
-});
-res.json({ success: true, message: query });
-return;
-}
-if(Sp ===null){ // If Souce Place is missing 
-  let query = await TripDetails.find({ DestinationPlace: dp});
-  res.json({ success: true, message: `Source Place Is Missing`,query: query });
+if(Sp !== null ){
+  try {
+  console.log("sp is not   null");
+  let query = await TripDetails.find({SourcePlace: Sp});
+  if (query.length != 0) {
+    // If no trips are found based on source and destination places, but trips are found based on the date, return them
+    res.json({ success: true, message: `Trips found based on source places`,query: query});
+  }else{
+    if(dp === null){
+      console.log("Destination  Place Is Missing");
+      res.json({ success: false, message: `No Trip Found Based On Source Place`});
+    
+    }
+  }
+  // console.log(" here dp:= "+query);
   return;
-}else{// If Destination Place is missing then 
-  let query = await TripDetails.find({   SourcePlace: Sp});
-  res.json({ success: true, message: `Destination Place is Missing`,query: query });
-  return;
+} catch (error) {
+  console.log("sp is not  null");
 }
+}
+if(dp !== null){
+  try {
+    console.log("dp is not null");
+    console.log("Sp is  null");
+    
+  
+  // let query = await TripDetails.find({ DestinationPlace: dp});
+  // console.log(" here dp:= "+query);
+  // res.json({ success: true, message: `Source Place Is Missing`,query: query });
+  return;
+  } catch (error) {
+    console.log("dp is  null");
+  }
+}
+
+
 
 
   } catch (error) {
-    res.status(400).json({success :false ,message: error })
+    
+    res.status(400).json({success :false ,message: "Something Went wrong" })
   }
 })
 
