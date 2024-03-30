@@ -54,9 +54,9 @@ PassengerRoute.post('/', async (req,res)=>{
             // res.status(409).json({success :false ,message: error }); 
           }
 })
-// getting the all item present in cart
+// getting the all Passenger 
 PassengerRoute.get('/get',async(req,res)=>{
-          console.log("getting the all item present in cart get requst is working");
+          console.log("getting the all Passenger");
           try {
                     const AllItem =await Passenger.find({})
                     res.status(200).json(AllItem)

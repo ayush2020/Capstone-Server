@@ -44,9 +44,9 @@ RiderRoute.post('/post', async(req, res) => {
     }
 
 })
-// getting the all item present in cart
+// getting the all Rider Login Details
 RiderRoute.get('/get', async(req, res) => {
-    console.log("getting the all item present in cart get requst is working");
+    console.log("getting the all Rider Login Details");
     try {
         const specificItem = await RiderLogin.find({})
         res
@@ -71,7 +71,7 @@ RiderRoute.get('/get/:id',async(req,res)=>{
 // Admin Login
 RiderRoute.post("/adminLogin", async function (req, res) {
     try {
-        console.log("rider/adminlogin");
+        console.log("rider/adminlogin from Rider Route.js");
 
         const reqEmail = req.body.Email;
         const emailLowerCase = reqEmail.toLowerCase()
