@@ -87,9 +87,9 @@ Useroute.post("/adminLogin",async function(req,res){
       
     }
 })
-// getting the all item present in cart
+// getting the all user 
 Useroute.get('/get',async(req,res)=>{
-          console.log("getting the all item present in cart get requst is working");
+          console.log("getting the all user from UserRouter");
           try {
               const specificItem =await User.find({})
               if (specificItem.length===0){
