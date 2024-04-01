@@ -2,6 +2,7 @@ const RiderRoute = require('express').Router();
 const bcrypt = require("bcrypt");
 const RiderLogin = require('../Model/Rider');
 const jwt = require('jsonwebtoken');
+const { error } = require('console');
 
 RiderRoute.post('/post', async(req, res) => {
     try {
@@ -10,9 +11,20 @@ RiderRoute.post('/post', async(req, res) => {
         const emailLowerCase = Email.toLowerCase()
         let foundPhone = await findPhone(PhoneNumber); //  calling the phone fuction to check phone is exist
         let foundEmail = await findEmail(emailLowerCase); //  calling the Email fuction to check email is exist
-        if (foundEmail || foundPhone) {
-            return  res.status(409).json({success: false, message: "Email Or Phone already Register"})
-        } 
+        console.log(foundPhone);
+        console.log(foundEmail);
+        if(foundEmail ===true){
+            console.log("Email already Register");
+            res.status(404).json({success :false ,message: "Email already Register" })
+            return;
+        }
+        if(foundPhone ===true){
+            console.log("Phone already Register");
+            res.status(404).json({success :false ,message: "Phone already Register" })
+            return;
+        }
+        if(foundEmail ==false  && foundPhone==false){
+            console.log("Email and Phone not Register");
         const plainPassword = req.body.Password;
         const hashPassword = bcrypt.hashSync(plainPassword, 2);
         const newdata = new RiderLogin({
@@ -26,21 +38,25 @@ RiderRoute.post('/post', async(req, res) => {
             Rc: req.body.Rc,
             IsRider: true
         })
-        // console.log(newdata);
-        const save = await newdata.save()
+        
+        const save = await newdata.save();
+        console.log(save);
         
         if(!save){
+            console.log("Rider not created");
             return res
             .status(500)
-            .json({success: false, message: "SomeThing went wrong"});
+            .json({success: false, message: error});
         }
         
-        return res.json({success: true, message: "Rider created Successfully"})
-
+        res.json({success: true, message: "Rider created Successfully"})
+    }else{
+        res.status(400).json({success :false ,message: "Email ow Password already Register" })
+    }
     } catch (error) {
         res
             .status(400)
-            .json({success: false, message: "SomeThing went wrong"});
+            .json({success: false, message: error});
     }
 
 })
@@ -158,7 +174,8 @@ async function findEmail(email) {
     try {
         console.log(" iam call Email");
         let res = await RiderLogin.findOne({Email: email})
-        if (res != null) {
+        console.log(res);
+        if (res !== null) {
             return true;
         } else 
             return false;

@@ -103,7 +103,7 @@ PassengerRoute.get('/approval/:email',async(req,res) =>{
     try {
       let query =await Passenger.findOne({Email: data})
       
-      res.json({success: true,ConfirmRide:query.confirmRide,RejectRide:query.RejectRide});
+      res.json({success: true,ConfirmRide:query.confirmRide,RejectRide:query.RejectRide,RiderEmail:query.RiderEmail,Approval:query.Acceptance});
     }catch (error) {res.json(error);}
 })
 
@@ -172,7 +172,7 @@ PassengerRoute.put('/confirm/:id',async(req,res)=>{
     let passengerId =req.params.id;
    
     
-    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{confirmRide: true,RejectRide:false}});
+    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{confirmRide: true,RejectRide:false,Acceptance:"done"}});
     // console.log(updateData);
     res.json({success: true, message: "booked successfully"});
   } catch (error) {
@@ -184,7 +184,7 @@ PassengerRoute.put('/reject/:id',async(req,res)=>{
   console.log(`/reject/${req.params.id} put request is working`);
   try {
     let passengerId =req.params.id;
-    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{RejectRide: true,confirmRide:false}});
+    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{RejectRide: true,confirmRide:false,Acceptance:"done"}});
     // console.log(updateData);
     res.json({success: true, message: "rejected successfully"});
   } catch (error) {

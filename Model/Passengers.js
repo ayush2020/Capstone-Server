@@ -37,6 +37,10 @@ const PassengerTrip = new mongoose.Schema({
             type : String,
             default: "Not Assigned"
         },
+        Acceptance:{
+            type: String,
+            default:"Not Assigned"
+        },
         confirmRide:{
             type:Boolean,
             default:false

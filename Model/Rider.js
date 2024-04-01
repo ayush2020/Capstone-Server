@@ -12,7 +12,7 @@ const Rider = new mongoose.Schema({
         },
         AadharNo:{
           type :Number,
-          unique:true,
+          // unique:true,
           require:true
         },
           Licenseno:String,
