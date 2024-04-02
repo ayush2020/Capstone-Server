@@ -2,7 +2,7 @@ const RiderRoute = require('express').Router();
 const bcrypt = require("bcrypt");
 const RiderLogin = require('../Model/Rider');
 const jwt = require('jsonwebtoken');
-const { error } = require('console');
+const { error, log } = require('console');
 
 RiderRoute.post('/post', async(req, res) => {
     try {
@@ -123,6 +123,76 @@ RiderRoute.post("/adminLogin", async function (req, res) {
         res.json(res.status(400).json({success: false, message: "SomeThing went wrong"}))
     }
 })
+// Rider Login with Gmail 
+
+RiderRoute.post("/gmailLogin", async function (req, res) {
+
+    try {   
+        console.log("rider/gmaillogin from Rider Route.js");
+        const reqEmail = req.body.Email;
+        const emailLowerCase = reqEmail.toLowerCase()
+        let existingUser = await RiderLogin.findOne({Email: emailLowerCase}) // Checking exiting data in database
+        console.log(existingUser);
+        if (existingUser === null) {
+            console.log("Rider does not exist!")
+            res.json({success: false, message: 'Rider does not exist!'})
+        } else {
+            const {_id: id, FullName, Email, IsRider} = existingUser;
+            console.log(FullName);
+            const token = jwt.sign({
+                id,
+                FullName
+            }, process.env.JWT_SECRET, {expiresIn: 60})
+
+            res.status(200).json({success: true,result: {
+                        id,
+                        FullName,
+                        Email,
+                        token,
+                        IsRider
+                    }
+                })
+            
+        }
+    }
+    catch (error) {
+        res.json(res.status(400).json({success: false, message: "SomeThing went wrong"}))
+    }
+}); 
+//phone login
+RiderRoute.post("/phoneLogin", async function (req, res) {
+    try {
+        console.log("rider/phonelogin from Rider Route.js");
+        const   reqPhone = req.body.PhoneNumber;
+        let existingUser = await RiderLogin.findOne({PhoneNumber: reqPhone}) // Checking exiting data in database
+        console.log(existingUser);
+        if (existingUser === null) {
+            console.log("Rider does not exist!")
+            res.json({success: false, message: 'Rider does not exist!'})
+        } else {
+            const {_id: id, FullName, Email, IsRider} = existingUser;
+            console.log(FullName);
+           
+            const token = jwt.sign({
+                id,
+                FullName
+            }, process.env.JWT_SECRET, {expiresIn: 60})
+
+            res.status(200).json({success: true,result: {
+                        id,
+                        FullName,
+                        Email,
+                        token,
+                        IsRider
+                    }
+                })
+            
+        }
+    } catch (error) {
+        res.json(res.status(400).json({success: false, message: "SomeThing went wrong"}))
+    }
+})       
+
 // Getting the specific phoneno item with help of phone
 RiderRoute.get('/getphone/:phone', async(req, res) => {
     console.log("getting the paticular get rquest is working");

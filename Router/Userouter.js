@@ -87,6 +87,71 @@ Useroute.post("/adminLogin",async function(req,res){
       
     }
 })
+// User login with gmail
+Useroute.post("/gmailLogin", async function (req, res) {
+  try {
+      console.log("user/gmailLogin from User Route.js");
+      const reqEmail = req.body.Email;
+      const emailLowerCase = reqEmail.toLowerCase()
+      let existingUser = await User.findOne({Email: emailLowerCase}) // Checking exiting data in database
+      console.log(existingUser);
+      if (existingUser === null) {
+          console.log("User does not exist!")
+          res.json({success: false, message: 'User does not exist!'})
+      } else {  
+          const {_id: id, FullName, Email, IsRider} = existingUser;
+          console.log(FullName);
+          const token = jwt.sign({
+              id,
+              FullName
+          }, process.env.JWT_SECRET, {expiresIn: 60})
+          res.status(200).json({success: true,result: {
+                      id,
+                      FullName,
+                      Email,
+                      token,
+                      IsRider
+                  }
+              })
+          
+      }
+  } catch (error) {
+      res.json(res.status(400).json({success: false, message: "SomeThing went wrong"}))
+  }
+})
+//phone login
+Useroute.post("/phoneLogin", async function (req, res) {
+  try {
+      console.log("user/phonelogin from User Route.js");
+      const   reqPhone = req.body.PhoneNumber;
+      let existingUser = await User.findOne({PhoneNumber: reqPhone}) // Checking exiting data in database
+      console.log(existingUser);
+      if (existingUser === null) {
+          console.log("User does not exist!")
+          res.json({success: false, message: 'User does not exist!'})
+      } else {
+          const {_id: id, FullName, Email, IsRider} = existingUser;
+          console.log(FullName);
+         
+          const token = jwt.sign({
+              id,
+              FullName
+          }, process.env.JWT_SECRET, {expiresIn: 60})
+
+          res.status(200).json({success: true,result: {
+                      id,
+                      FullName,
+                      Email,
+                      token,
+                      IsRider
+                  }
+              })
+          
+      }
+  } catch (error) {
+      res.json(res.status(400).json({success: false, message: "SomeThing went wrong"}))
+  }
+})   
 // getting the all user 
 Useroute.get('/get',async(req,res)=>{
           console.log("getting the all user from UserRouter");
