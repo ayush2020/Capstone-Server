@@ -10,38 +10,40 @@ const jwt = require('jsonwebtoken')
 
 
 Useroute.post('/post', async (req,res)=>{
-          console.log("post require is working");
+          console.log("post require  from UserRouter.js ");
           try {
-            
-            const plainPassword = req.body.Password;
-            console.log("hfh"+plainPassword);
-            
-            const Email = req.body.Email
-            const PhoneNumber =req.body.PhoneNumber
-            const emailLowerCase = Email.toLowerCase()
-            let foundPhone = await findPhone(PhoneNumber);
            
-            let foundEmail = await findEmail(emailLowerCase);
-            console.log("Regi "+foundEmail);
-            console.log("Regi "+foundPhone);
-            if(foundEmail.success ==false  && foundPhone.success==false){
-                // if (plainPassword.length < 6)
-                console.log("I am call from user/post");
-                //  return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' })
-                  const hashPassword = bcrypt.hashSync(plainPassword, 2);
-                      const newdata= new User({
-                              FullName:req.body.FullName,
-                              Email:emailLowerCase,
-                              PhoneNumber:PhoneNumber,
-                              Password:hashPassword,
-                              IsRider:req.body.IsRider
-                      })
-                      const save= await newdata.save()
-                      res.json({success :true ,message:"User is save"})
-                    }else{
-                      res.status(400).json({success :false ,message: "Email or Password already Register" })
-                    }
-
+            
+              const plainPassword = req.body.Password;
+              console.log("hfh"+plainPassword);
+              
+              const Email = req.body.Email
+              const PhoneNumber =req.body.PhoneNumber
+              const emailLowerCase = Email.toLowerCase()
+              let foundPhone = await findPhone(PhoneNumber);
+            
+              let foundEmail = await findEmail(emailLowerCase);
+              console.log("Regi "+foundEmail.success);
+              console.log("Regi "+foundPhone.success);
+              if(foundEmail.success ==false  && foundPhone.success==false){
+                
+                  console.log("I am call from user/post");
+                  
+                    const hashPassword = bcrypt.hashSync(plainPassword, 2);
+                        const newdata= new User({
+                                FullName:req.body.FullName,
+                                Email:emailLowerCase,
+                                PhoneNumber:PhoneNumber,
+                                Password:hashPassword,
+                                IsRider:req.body.IsRider
+                        })
+                        const save= await newdata.save()
+                        res.json({success :true ,message:"User is save"})
+                      }else{
+                        console.log("Email or Password already Register");
+                        res.status(400).json({success :false ,message: "Email or Password already Register" })
+                      }
+            
           } catch (error){ 
             console.log(error);
             
@@ -193,7 +195,7 @@ Useroute.get('/getboth/:email/:phone',async(req,res) =>{
   
     let foundPhone = await findPhone(phone);
     let foundEmail = await findEmail(email);
-    console.log(foundPhone);
+    // console.log(foundPhone);
    let ans = foundEmail.success || foundPhone.success;
   //(`FoundPhone ${foundPhone} \nFoundEmail:${foundEmail} ans ${ans}`
   //           )

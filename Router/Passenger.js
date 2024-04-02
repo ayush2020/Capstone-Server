@@ -5,13 +5,12 @@ const Passenger =require('../Model/Passengers');
 PassengerRoute.post('/', async (req,res)=>{
   try {   
             console.log("Passenger post require is working");
-            let SourcePlace= (req.body.SourcePlace).toLowerCase() || "";            
-            let DestinationPlace =(req.body.DestinationPlace).toLowerCase() || "";
+           if(req.body ===null){
+            console.log("Data is missing");
+            // res.status(400).json({success :false ,message: "Data is missing"})
+           }
             const Email = (req.body.Email).toLowerCase();
-            // console.log(req.body.PhoneNumber);
-            // console.log(SourcePlace);
-            // console.log(DestinationPlace);
-            // console.log(req.body.FullName);
+            
             
             const PhoneNumber =req.body.PhoneNumber
            
@@ -25,12 +24,7 @@ PassengerRoute.post('/', async (req,res)=>{
                   FullName:req.body.FullName,
                   Email:Email,
                   PhoneNumber:req.body.PhoneNumber,
-                  Gender :req.body.Gender,
-                  SourcePlace:SourcePlace,
-                  DestinationPlace:DestinationPlace,
-                  typeOfTrip:req.body.typeOfTrip,
-                  dateOfTrip:req.body.dateOfTrip,
-                  timeOfTrip:req.body.timeOfTrip,                 
+                  Gender :req.body.Gender,                 
                   Price: req.body.Price,
                   Distance:req.body.Distance,
                   IsRider:req.body.IsRider,
