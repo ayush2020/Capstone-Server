@@ -14,12 +14,7 @@ const PassengerTrip = new mongoose.Schema({
             type:String,
   
         },
-        SourcePlace: String,
-        DestinationPlace: String,
-        typeOfTrip: String,
-        dateOfTrip: String,
-        timeOfTrip: String,
-        
+               
         Rating: {
             type: Number,
             default: 5

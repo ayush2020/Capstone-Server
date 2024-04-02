@@ -11,6 +11,9 @@ const UserSchema = new mongoose.Schema({
             unique: true
         },
           Password:String,
+          Gender:{ 
+            type:String,
+          },
           IsRider:Boolean,
 
 })
