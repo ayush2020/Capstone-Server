@@ -53,6 +53,16 @@ TripRoute.get('/',async(req,res)=>{
                    res.status(400).json({success :false ,message: error })
           }
 })
+// getting the trip details of the particular rider using email
+TripRoute.get('/getRider/:email',async(req,res)=>{
+  console.log(`/getRider/${req.params.email} get re is working from TripDetails.js`);
+  try {
+            const specificItem =await TripDetails.find({Email: req.params.email});
+            res.status(200).json(specificItem)
+  } catch (error) {
+           res.status(400).json({success :false ,message: error })
+  }
+});
 // getting the particular item present in cart
 TripRoute.get('/get/:id',async(req,res)=>{
           console.log(`/get/${req.params.id} get re is working from TripDetails.js`);

@@ -103,7 +103,7 @@ PassengerRoute.get('/approval/:email',async(req,res) =>{
     try {
       let query =await Passenger.findOne({Email: data})
       
-      res.json({success: true,ConfirmRide:query.confirmRide,RejectRide:query.RejectRide});
+      res.json({success: true,ConfirmRide:query.confirmRide,RejectRide:query.RejectRide,RiderEmail:query.RiderEmail,Approval:query.Acceptance});
     }catch (error) {res.json(error);}
 })
 
@@ -156,8 +156,8 @@ PassengerRoute.put('/update/:email',async(req,res)=>{
   try {
     const PassengerEmail =req.params.email;
     let  RiderEmail =req.body.RiderEmail;
-    console.log(RiderEmail);
-    console.log("this is  Rider Email "+req.body.RiderEmail)
+    // console.log(RiderEmail);
+    // console.log("this is  Rider Email "+req.body.RiderEmail)
     const updateData = await Passenger.updateOne({Email:PassengerEmail},{$set:{RiderEmail: RiderEmail}});
     console.log(updateData);
     res.json({success: true, message: "Booking"});
@@ -172,7 +172,7 @@ PassengerRoute.put('/confirm/:id',async(req,res)=>{
     let passengerId =req.params.id;
    
     
-    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{confirmRide: true,RejectRide:false}});
+    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{confirmRide: true,RejectRide:false,Acceptance:"done"}});
     // console.log(updateData);
     res.json({success: true, message: "booked successfully"});
   } catch (error) {
@@ -184,13 +184,25 @@ PassengerRoute.put('/reject/:id',async(req,res)=>{
   console.log(`/reject/${req.params.id} put request is working`);
   try {
     let passengerId =req.params.id;
-    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{RejectRide: true,confirmRide:false}});
+    const updateData = await Passenger.updateOne({_id:passengerId},{$set:{RejectRide: true,confirmRide:false,Acceptance:"done"}});
     // console.log(updateData);
     res.json({success: true, message: "rejected successfully"});
   } catch (error) {
     res.json({success: false, message: error})
 }
 })
+// Update  the  Particular  Data  of Passenger
+PassengerRoute.put('default/:email',async(req,res)=>{
+  console.log(`/default/${req.params.email} from Passenger.js`);
+  try {
+    const PassengerEmail =req.params.email;
+    const updateData = await Passenger.updateOne({Email:PassengerEmail},{$set:{RiderEmail: RiderEmail}});
+  } catch (error) {
+    res.json({success:false,message:error});
+  }
+})
+
+
 // Delete all
 PassengerRoute.delete('/empty',async (req, res)=>{
           console.log("/cart/empty get request is working");
