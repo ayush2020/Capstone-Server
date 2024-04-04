@@ -102,6 +102,7 @@ TripRoute.post('/getpath',async(req,res)=>{
     let dot= req.body.dateOfTrip || null ; 
     console.log(dp);
     console.log(Sp);
+    // nh
     if(Sp === null && dp === null && dot === null){
     console.log("All are null");  
     }

@@ -17,6 +17,13 @@ Content-Type: application/json
 GET  http://localhost:4000/rider/get/65d2df001653d6331502eba8
 Content-Type: application/json
 ###
+GET  http://localhost:4000/rider/getphone/8840099605
+Content-Type: application/json
+###
+GET  http://localhost:4000/rider/getboth/45fg@gmail.com/8840099605
+Content-Type: application/json
+
+###
 
 
 

@@ -12,45 +12,71 @@ const jwt = require('jsonwebtoken')
 Useroute.post('/post', async (req,res)=>{
           console.log("post require  from UserRouter.js ");
           try {
-           
-            
               const plainPassword = req.body.Password;
               console.log("hfh"+plainPassword);
-              
               const Email = req.body.Email
               const PhoneNumber =req.body.PhoneNumber
               const emailLowerCase = Email.toLowerCase()
               let foundPhone = await findPhone(PhoneNumber);
-            
               let foundEmail = await findEmail(emailLowerCase);
               console.log("Regi "+foundEmail.success);
               console.log("Regi "+foundPhone.success);
-              if(foundEmail.success ==false  && foundPhone.success==false){
-                
-                  console.log("I am call from user/post");
-                  
+              if(foundEmail.success ==false  && foundPhone.success==false){ 
                     const hashPassword = bcrypt.hashSync(plainPassword, 2);
                         const newdata= new User({
-                                FullName:req.body.FullName,
-                                Email:emailLowerCase,
-                                PhoneNumber:PhoneNumber,
-                                Password:hashPassword,
-                                IsRider:req.body.IsRider
-                        })
+                              FullName:req.body.FullName,
+                              Email:emailLowerCase,
+                              PhoneNumber:PhoneNumber,
+                              Password:hashPassword,
+                              IsRider:req.body.IsRider
+                              })
                         const save= await newdata.save()
                         res.json({success :true ,message:"User is save"})
                       }else{
                         console.log("Email or Password already Register");
                         res.status(400).json({success :false ,message: "Email or Password already Register" })
-                      }
-            
+                      }        
           } catch (error){ 
             console.log(error);
             
             res.status(400).json({success :false ,message: error })}
-
-          
 })
+// Gmail post
+Useroute.post('/gmailRegister', async (req,res)=>{
+  console.log("post require  from UserRouter.js ");
+  try {
+    const Email = req.body.Email;
+    const PhoneNumber =req.body.PhoneNumber;
+    const emailLowerCase = Email.toLowerCase();
+    const IsRider = req.body.IsRider;
+    const FullName = req.body.FullName;
+    console.log(emailLowerCase);
+    console.log(PhoneNumber);
+    console.log(IsRider);      
+            const newdata= new User({
+                  FullName:req.body.FullName,
+                  Email:emailLowerCase,
+                  PhoneNumber:PhoneNumber,
+                  
+                  IsRider:req.body.IsRider
+                  })
+            console.log(newdata);
+              const save= await newdata.save()
+            
+            const token = jwt.sign({
+                    id: save._id,
+                    FullName:save.FullName
+                }, process.env.JWT_SECRET, {expiresIn: 60})
+
+              res.json({success :true ,message:"User is save",result: {FullName,Email,token,IsRider}})
+                          
+          } catch (error){ 
+            console.log(error);
+            
+            // res.status(400).json({success :false ,message: error })
+          }
+})
+
 Useroute.post("/adminLogin",async function(req,res){
   try{
     console.log("I am call From user/adminLogin");
@@ -64,7 +90,6 @@ Useroute.post("/adminLogin",async function(req,res){
       }else{
       const { _id: id, FullName,Email,Password,IsRider } = existingUser;
       // destructing the id FullName,Password,IsRider From data 
-      console.log("he");
           // console.log(reqPassword);
           // console.log(Password);
           
@@ -79,7 +104,7 @@ Useroute.post("/adminLogin",async function(req,res){
             { expiresIn: 60 }
         )
         //  If the All good the send the to client side
-        res.status(200).json({ success: true, result: { id, FullName, Email,IsRider,token } })
+        res.status(200).json({ success: true, result: { FullName, Email,IsRider,token } })
         }else if(bcrypt.compareSync(reqPassword, Password) === false){
           res.json({ success: false, message: 'Password is wrong' });
         }
@@ -89,7 +114,7 @@ Useroute.post("/adminLogin",async function(req,res){
       
     }
 })
-// User login with gmail
+// User login with gmailgggg
 Useroute.post("/gmailLogin", async function (req, res) {
   try {
       console.log("user/gmailLogin from User Route.js");
@@ -97,18 +122,19 @@ Useroute.post("/gmailLogin", async function (req, res) {
       const emailLowerCase = reqEmail.toLowerCase()
       let existingUser = await User.findOne({Email: emailLowerCase}) // Checking exiting data in database
       console.log(existingUser);
+
       if (existingUser === null) {
           console.log("User does not exist!")
           res.json({success: false, message: 'User does not exist!'})
       } else {  
           const {_id: id, FullName, Email, IsRider} = existingUser;
-          console.log(FullName);
+          // console.log(FullName);
+            // Making the token from website which expiresIn in 60 min 
           const token = jwt.sign({
               id,
               FullName
           }, process.env.JWT_SECRET, {expiresIn: 60})
           res.status(200).json({success: true,result: {
-                      id,
                       FullName,
                       Email,
                       token,
@@ -132,7 +158,7 @@ Useroute.post("/phoneLogin", async function (req, res) {
           console.log("User does not exist!")
           res.json({success: false, message: 'User does not exist!'})
       } else {
-          const {_id: id, FullName, Email, IsRider} = existingUser;
+          const {_id:id,FullName, Email, IsRider} = existingUser;
           console.log(FullName);
          
           const token = jwt.sign({
@@ -141,7 +167,6 @@ Useroute.post("/phoneLogin", async function (req, res) {
           }, process.env.JWT_SECRET, {expiresIn: 60})
 
           res.status(200).json({success: true,result: {
-                      id,
                       FullName,
                       Email,
                       token,
@@ -189,27 +214,37 @@ Useroute.get('/getemail/:email',async(req,res) =>{
 })
 // Gettting the email and phone at same time
 Useroute.get('/getboth/:email/:phone',async(req,res) =>{
-  console.log("getting the email get rquest is working");
+  console.log("getting the email get request is working");
   const email =req.params.email;
   const phone =req.params.phone;
   
     let foundPhone = await findPhone(phone);
     let foundEmail = await findEmail(email);
-    // console.log(foundPhone);
-   let ans = foundEmail.success || foundPhone.success;
-  //(`FoundPhone ${foundPhone} \nFoundEmail:${foundEmail} ans ${ans}`
-  //           )
-   res.json(ans)
-    
-
+    console.log("foundEmail "+foundEmail.success);
+    console.log("foundPhone "+foundPhone.success);
+    if(foundEmail.success ==true && foundPhone.success==true){
+      res.json({ success: false, message: "Both are already Register" });
+      return;
+    }
+    if(foundEmail.success ==true && foundPhone.success==false){
+      res.json({ success: false, message: "Email is already Register" });
+    return;
+    }
+    if(foundEmail.success ==false && foundPhone.success==true){
+      res.json({ success: false, message: "Phone is already Register" });
+      return;
+    }
+    else{
+      res.json({ success: true, message: "Both are not Register" });
+      return;
+    }
     
 })
 async function findPhone(phone){
   try {
-    console.log(" iam call ed phone from UserRouter");
+    console.log(" iam call ed phone from UserRouter ");
     
-    let res= await User.findOne({PhoneNumber: phone});
-    console.log(res);
+    let res= await User.findOne({PhoneNumber: phone});    
     if(res!==null){
       return {success: true, message: res._id }
     }else{
