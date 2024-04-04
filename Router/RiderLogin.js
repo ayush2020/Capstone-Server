@@ -31,8 +31,8 @@ RiderRoute.post('/post', async(req, res) => {
             FullName: req.body.Name,
             Email: emailLowerCase,
             PhoneNumber: req.body.PhoneNumber,
-            Licenseno: req.body.Licenseno,
-            Vehicleno: req.body.Vehicleno,
+            LicenseNo: req.body.Licenseno,
+            
             AadharNo:req.body.AadharNo,
             Password: hashPassword,
             Rc: req.body.Rc,
@@ -51,7 +51,7 @@ RiderRoute.post('/post', async(req, res) => {
         
         res.json({success: true, message: "Rider created Successfully"})
     }else{
-        res.status(400).json({success :false ,message: "Email ow Password already Register" })
+        res.status(400).json({success :false ,message: "Email or Password already Register" })
     }
     } catch (error) {
         res
@@ -123,6 +123,50 @@ RiderRoute.post("/adminLogin", async function (req, res) {
         res.json(res.status(400).json({success: false, message: "SomeThing went wrong"}))
     }
 })
+// Rider Register with Gmail
+RiderRoute.post('/gmailRegister', async(req, res) => {
+    try {
+        console.log("rider/gmailRegister from Rider Route.js");
+        const Email = req.body.Email
+        const emailLowerCase = Email.toLowerCase();
+        const PhoneNumber = req.body.PhoneNumber
+        let FullName = req.body.Name;
+        let IsRider = true;
+    
+        console.log("Rider Register with Gmail");
+        const newdata = new RiderLogin({
+            FullName: req.body.Name,
+            Email: emailLowerCase,
+            PhoneNumber: PhoneNumber,
+            LicenseNo: req.body.Licenseno,
+            AadharNo:req.body.AadharNo,
+            Password: req.body.Password,
+            Rc: req.body.Rc,
+            IsRider: true
+        })
+        console.log(newdata);
+        const save = await newdata.save();
+        console.log(save);
+        
+        if(!save){
+            console.log("Rider not created");
+            return res
+            .status(500)
+            .json({success: false, message: error});
+        }
+        const token = jwt.sign({
+                id: save._id,
+                FullName:save.FullName
+            }, process.env.JWT_SECRET, {expiresIn: 60})
+
+        res.json({success: true, message: "Rider created Successfully",result: {FullName,Email,token,IsRider}})
+    
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({success: false, message: "error"});
+    }
+})
+
 // Rider Login with Gmail 
 
 RiderRoute.post("/gmailLogin", async function (req, res) {
@@ -179,7 +223,7 @@ RiderRoute.post("/phoneLogin", async function (req, res) {
             }, process.env.JWT_SECRET, {expiresIn: 60})
 
             res.status(200).json({success: true,result: {
-                        id,
+                        
                         FullName,
                         Email,
                         token,
@@ -195,7 +239,7 @@ RiderRoute.post("/phoneLogin", async function (req, res) {
 
 // Getting the specific phoneno item with help of phone
 RiderRoute.get('/getphone/:phone', async(req, res) => {
-    console.log("getting the paticular get rquest is working");
+    console.log("getting the paticular get request is working");
     const data = req.params.phone;
     console.log(data);
     try {
@@ -207,6 +251,39 @@ RiderRoute.get('/getphone/:phone', async(req, res) => {
             .json({success: false, message: "SomeThing went wrong"})
     }
 })
+// Getting the both email and phone in RiderLogin
+RiderRoute.get('/getboth/:email/:phone',async(req,res) =>{
+    console.log("getting the oin line 271");
+    const email =req.params.email || null;
+    const phone =req.params.phone || null;
+
+    if(email ==null || phone ==null){
+        res.json({ success: false, message: "Email or Phone is not provided" });
+    }
+    console.log(req.params.email);
+    console.log(phone);
+      let foundPhone = await findPhone(phone);
+      let foundEmail = await findEmail(email);
+      console.log("foundEmail "+foundEmail.success);
+      console.log("foundPhone "+foundPhone.success);
+      if(foundEmail.success ==true && foundPhone.success==true){
+        res.json({ success: false, message: "Both are already Register" });
+        return;
+      }
+      if(foundEmail.success ==true && foundPhone.success==false){
+        res.json({ success: false, message: "Email is already Register" });
+      return;
+      }
+      if(foundEmail.success ==false && foundPhone.success==true){
+        res.json({ success: false, message: "Phone is already Register" });
+        return;
+      }
+      else{
+        res.json({ success: true, message: "Both are not Register" });
+        return;
+      }
+      
+  })
 
 // Getting the specific item with help of email
 RiderRoute.get('/getemail/:email', async(req, res) => {
@@ -230,11 +307,11 @@ async function findPhone(phone) {
         let res = await RiderLogin.findOne({PhoneNumber: phone})
         console.log(res);
 
-        if (res !== null) {
-            return true
-        } else {
-            return false
-        }
+        if(res!==null){
+            return {success: true, message: res._id }
+          }else{
+            return {success:false, message: "Not Found"}
+          }
 
     } catch (error) {
         console.log(error);
@@ -244,16 +321,14 @@ async function findEmail(email) {
     try {
         console.log(" iam call Email");
         let res = await RiderLogin.findOne({Email: email})
-        console.log(res);
-        if (res !== null) {
-            return true;
-        } else 
-            return false;
-
+        if(res!==null){
+            return{success: true, message: res}
+          }else{
+            return {success: false, message: "Not Found"}
+          }
+        } catch (error) {
+          console.log(error);
         }
-    catch (error) {
-        console.log("docew");
-    }
 }
 // Delete Item
 RiderRoute.delete('/delete/:name', async(req, res) => {

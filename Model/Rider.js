@@ -15,8 +15,7 @@ const Rider = new mongoose.Schema({
           // unique:true,
           require:true
         },
-          Licenseno:String,
-          Vehicleno:String,
+          LicenseNo:String,
           Password:String,
           Rc: String,
           IsRider:Boolean,
