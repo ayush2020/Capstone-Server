@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
+const paymentRoutes = require("./Router/Payments");
 
 const cors = require('cors');
 
@@ -38,6 +39,8 @@ app.use('/user', UserRoute);
 app.use('/tripdet',TripDetails);
 app.use('/rider',RiderLogin)
 app.use('/passenger',PassengerRoute)
+app.use("/api/payment/", paymentRoutes);
+
 
 //PORT: 4000
 
