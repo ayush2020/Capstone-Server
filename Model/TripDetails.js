@@ -4,11 +4,11 @@ const TripDetails = new mongoose.Schema({
     FullName: String,
     Email: {
         type: String,
-        unique: true
+       
     },
     VehicleNumber: {
         type: String,
-        unique: true
+        
     },
     VehicleName: {
         type: String
@@ -26,7 +26,7 @@ const TripDetails = new mongoose.Schema({
     },
     PhoneNumber: {
         type: String,
-        unique: true
+        
     },
     Rating: {
         type: Number,
