@@ -206,6 +206,18 @@ if(dp !== null){
   }
 })
 
+// Update Item
+TripRoute.put('/updateprice/:id',async (req,res)=>{
+          console.log(`/update/${req.params.id}`);
+          try {
+              const updateItem = await TripDetails.findByIdAndUpdate(req.params.id,{$set:{Price: req.body.Price}});
+              res.status(200).json({success :true ,message:"Price_updated"});
+          } catch (error) {
+            res.status(400).json({success :false ,message: "SomeThing went wrong" })
+          }
+}
+)
+
 // Delete Item
 TripRoute.delete('/delete/:vehicleNumber', async (req,res)=>{
           console.log(`/delete/${req.params.vehicleNumber}`);
