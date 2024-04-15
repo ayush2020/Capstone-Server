@@ -19,9 +19,7 @@ const PassengerTrip = new mongoose.Schema({
             type: Number,
             default: 5
         },
-        Price: {
-            type: Number
-        },
+        
         Distance: {
             type: String,
             default: "0KM"

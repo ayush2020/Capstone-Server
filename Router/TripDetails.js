@@ -6,6 +6,8 @@ const TripDetails =require('../Model/TripDetails');
 TripRoute.post('/', async (req,res)=>{
           console.log("TripDetails post require is working");
           console.log(req.body.PhoneNumber);
+          let dis=req.body.Distance || 650;
+          let price =  parseInt(dis)*50;
           try {   
             let SourcePlace= req.body.SourcePlace;
             let DestinationPlace =req.body.DestinationPlace;
@@ -24,7 +26,7 @@ TripRoute.post('/', async (req,res)=>{
                   timeOfTrip:req.body.timeOfTrip,
                   AvailableSeat:req.body.availableSeat,
                   PhoneNumber:req.body.PhoneNumber,
-                  Price: req.body.Price,
+                  Price: price,
                   Distance:req.body.Distance,
                   IsRider:req.body.IsRider
               })
@@ -203,6 +205,18 @@ if(dp !== null){
     res.status(400).json({success :false ,message: "Something Went wrong" })
   }
 })
+
+// Update Item
+TripRoute.put('/updateprice/:id',async (req,res)=>{
+          console.log(`/update/${req.params.id}`);
+          try {
+              const updateItem = await TripDetails.findByIdAndUpdate(req.params.id,{$set:{Price: req.body.Price}});
+              res.status(200).json({success :true ,message:"Price_updated"});
+          } catch (error) {
+            res.status(400).json({success :false ,message: "SomeThing went wrong" })
+          }
+}
+)
 
 // Delete Item
 TripRoute.delete('/delete/:vehicleNumber', async (req,res)=>{

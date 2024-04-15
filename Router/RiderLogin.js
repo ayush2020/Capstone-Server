@@ -13,17 +13,17 @@ RiderRoute.post('/post', async(req, res) => {
         let foundEmail = await findEmail(emailLowerCase); //  calling the Email fuction to check email is exist
         console.log(foundPhone);
         console.log(foundEmail);
-        if(foundEmail ===true){
+        if(foundEmail.success ===true){
             console.log("Email already Register");
             res.status(404).json({success :false ,message: "Email already Register" })
             return;
         }
-        if(foundPhone ===true){
+        if(foundPhone.success ===true){
             console.log("Phone already Register");
             res.status(404).json({success :false ,message: "Phone already Register" })
             return;
         }
-        if(foundEmail ==false  && foundPhone==false){
+        if(foundEmail.success ==false  && foundPhone.success==false){
             console.log("Email and Phone not Register");
         const plainPassword = req.body.Password;
         const hashPassword = bcrypt.hashSync(plainPassword, 2);
