@@ -41,6 +41,17 @@ const PassengerTrip = new mongoose.Schema({
         RejectRide:{
             type:Boolean,
             default:false
+        },
+        PaymentMethod:{
+            type: String,
+        },
+        Price:{
+            type:Number,
+            default: 0
+        },
+        PaymentStatus:{
+            type: String,
+            default: "Not_Paid"
         }
 
 })

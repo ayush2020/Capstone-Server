@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Razorpay = require("razorpay");
+const Passenger =require('../Model/Passengers');
 const crypto = require("crypto");
 
 router.post("/orders", async (req, res) => {
@@ -39,9 +40,9 @@ router.post("/verify", async (req, res) => {
 			.digest("hex");
 
 		if (razorpay_signature === expectedSign) {
-			return res.status(200).json({ message: "Payment verified successfully" });
+			return res.status(200).json({ success: true, message: "Payment verified successfully" });
 		} else {
-			return res.status(400).json({ message: "Invalid signature sent!" });
+			return res.status(400).json({ success:false,  message: "Invalid signature sent!" });
 		}
 	} catch (error) {
 		res.status(500).json({ message: "Internal Server Error!" });
