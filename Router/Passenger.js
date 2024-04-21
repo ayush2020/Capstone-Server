@@ -195,6 +195,23 @@ PassengerRoute.put('default/:email',async(req,res)=>{
     res.json({success:false,message:error});
   }
 })
+// Update the  Passenger  POD by its gmail
+PassengerRoute.put('/updatepod/:email',async(req,res)=>{
+  console.log(`/updatepod/${req.params.email} put request is working`);
+  try {
+    const UserEmail =req.params.email;
+    let Price =req.body.Price;
+    let  PaymentMethod =req.body.PaymentMethod;
+    let  PaymentStatus =req.body.PaymentStatus;
+    console.log("this is price"+ Price);
+    // console.log("this is  Rider Email "+req.body.RiderEmail)
+    const updateData = await Passenger.updateOne({ Email:UserEmail},{$set:{PaymentMethod: PaymentMethod,PaymentStatus:PaymentStatus,Price:Price}});
+    console.log(updateData);
+    res.json({success: true, message: "Payment Done"});
+  } catch (error) {
+    res.json({success: false, message: error})
+}
+}) 
 
 
 // Delete all
