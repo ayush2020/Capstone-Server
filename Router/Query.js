@@ -2,7 +2,8 @@ const queryRouter = require('express').Router();
 
 const Query = require('../Model/Query');
 
-queryRouter.post('/get', async (req, res) => {
+queryRouter.post('/post', async (req, res) => {
+    console.log('/post query');
     const query = new Query({
         FullName: req.body.FullName,
         Email: req.body.Email,

@@ -1,0 +1,13 @@
+POST http://localhost:4000/query/post
+Content-Type: application/json
+
+{
+    "FullName": "Ayush2 Kumar",
+    "Email":"ayush2324@gmail.com",
+    "PhoneNumber": "8840099654",
+    "Query": "I want to know about the course details"
+}
+###
+GET  http://localhost:4000/query/get
+Content-Type: application/json
+###
