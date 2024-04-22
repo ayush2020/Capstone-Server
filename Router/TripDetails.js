@@ -138,7 +138,7 @@ if(dp != null && Sp != null){
         if (destinationPlace.length != 0) {
           res.json({ success: true, message: `Trips found based on source and destination places`, query: destinationPlace});
         }else{
-          res.json({ success: false, message: `Destination is missing` });
+          res.json({ success: false, message: `No trip is found` });
         }
           
       }else{

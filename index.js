@@ -29,6 +29,7 @@ const UserRoute = require('./Router/Userouter');
 const TripDetails = require('./Router/TripDetails');
 const RiderLogin = require('./Router/RiderLogin');
 const PassengerRoute = require('./Router/Passenger')
+const QueryRouter   = require('./Router/Query');
 
 
 app.get("/",function(req,res){
@@ -37,8 +38,9 @@ app.get("/",function(req,res){
 
 app.use('/user', UserRoute);
 app.use('/tripdet',TripDetails);
-app.use('/rider',RiderLogin)
-app.use('/passenger',PassengerRoute)
+app.use('/rider',RiderLogin);
+app.use('/passenger',PassengerRoute);
+app.use('/query',QueryRouter);
 app.use("/api/payment/", paymentRoutes);
 
 
