@@ -11,12 +11,12 @@ let corsAllow = {
     // methods: "PUT, GET, POST, DELETE, OPTIONS, PATCH HEAD",
     // Credentials: true,
 }
-app.use(cors(corsAllow));
-mongoose.set('strictQuery', false);
+app.use(cors("*"));
+
 
 app.use(express.json());
 
-// Mogodb Collection
+// Mongodb Collection
 mongoose.connect(process.env.DB)
 .then(()=> console.log('Database connected'))
 .catch(err => console.log(err))
